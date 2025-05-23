@@ -22,7 +22,7 @@ public class Equipo {
     private String nombre;
 
     @Column(name= "cantidad_miembros",length = 2, nullable = true)
-    private  int cantidadMiembros;
+    private  Integer cantidadMiembros;
 
     @Column(nullable = false)
     private boolean estado;
@@ -33,6 +33,8 @@ public class Equipo {
     private List<VehiculoDTO> vehiculosAsignados;
 
     private List<BomberoDTO> personal;
+
+    private List<RecursoDTO> recursosDisponibles;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "turno_id", referencedColumnName = "id")

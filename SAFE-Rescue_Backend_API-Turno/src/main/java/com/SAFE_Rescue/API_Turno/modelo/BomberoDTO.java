@@ -13,6 +13,5 @@ public class BomberoDTO {
     private String nombre;
     private String a_paterno;
     private String a_materno;
-    private boolean estado;
 
 }
