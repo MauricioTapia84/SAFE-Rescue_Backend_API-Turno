@@ -1,19 +1,20 @@
 package com.SAFE_Rescue.API_Turno.service;
 
-import com.SAFE_Rescue.API_Turno.modelo.Equipo;
 import com.SAFE_Rescue.API_Turno.repository.TurnoRepository;
 import com.SAFE_Rescue.API_Turno.modelo.Turno;
-import com.SAFE_Rescue.API_Turno.repository.EquipoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
+/**
+ * Servicio para gestionar operaciones relacionadas con los turnos.
+ * Proporciona métodos para CRUD y validaciones de turnos.
+ */
 @Service
 @Transactional
 public class TurnoService {
@@ -21,47 +22,55 @@ public class TurnoService {
     @Autowired
     private TurnoRepository turnoRepository;
 
-    @Autowired
-    private EquipoService equipoService;
-
-    @Autowired
-    private EquipoRepository equipoRepository;
-
-    public List<Turno> findAll(){
+    /**
+     * Obtiene todos los turnos existentes.
+     * @return Lista de todos los turnos
+     */
+    public List<Turno> findAll() {
         return turnoRepository.findAll();
     }
 
-    public Turno findByID(long id){
-        return turnoRepository.findById(id).get();
+    /**
+     * Busca un turno por su ID.
+     * @param id ID del turno a buscar
+     * @return El turno encontrado
+     * @throws NoSuchElementException Si no se encuentra el turno
+     */
+    public Turno findByID(long id) {
+        return turnoRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Turno con ID " + id + " no encontrado"));
     }
 
+    /**
+     * Guarda un nuevo turno después de validarlo.
+     * @param turno Turno a guardar
+     * @return Turno guardado
+     * @throws RuntimeException Si hay errores de validación o al guardar
+     */
     public Turno save(Turno turno) {
         try {
-            Equipo equipo = turno.getEquipo();
-
-            validarCiudadano(turno);
-
-            Equipo guardadaEquipo = equipoService.save(equipo);
-
-            turno.setEquipo(guardadaEquipo);
-
+            validarTurno(turno);
             return turnoRepository.save(turno);
-        } catch (DataIntegrityViolationException e) {
-            throw new RuntimeException("Error: el correo de la credencial ya está en uso.");
         } catch (EntityNotFoundException e) {
-            throw new RuntimeException("Error al guardar el Ciudadano: " + e.getMessage());
+            throw new RuntimeException("Error al guardar el Turno: " + e.getMessage());
         } catch (Exception e) {
             throw new RuntimeException("Error inesperado: " + e.getMessage());
         }
     }
 
+    /**
+     * Actualiza un turno existente.
+     * @param turno Turno con los nuevos datos
+     * @param id ID del turno a actualizar
+     * @return Turno actualizado
+     * @throws RuntimeException Si hay errores de validación o al actualizar
+     */
     public Turno update(Turno turno, long id) {
         try {
-
             Turno antiguoTurno = turnoRepository.findById(id)
-                    .orElseThrow(() -> new NoSuchElementException("Ciudadano no encontrado"));
+                    .orElseThrow(() -> new NoSuchElementException("Turno no encontrado"));
 
-            //Control de errores
+            // Actualización de campos con validación
             if (turno.getNombre() != null) {
                 if (turno.getNombre().length() > 50) {
                     throw new RuntimeException("El valor nombre excede máximo de caracteres (50)");
@@ -69,118 +78,105 @@ public class TurnoService {
                 antiguoTurno.setNombre(turno.getNombre());
             }
 
-            if (turno.getTelefono() != null) {
-                if (turnoRepository.existsByTelefono(turno.getTelefono())) {
-                    throw new RuntimeException("El Telefono ya existe");
-                }else{
-                    if (String.valueOf(turno.getTelefono()).length()> 9) {
-                        throw new RuntimeException("El valor telefono excede máximo de caracteres (9)");
-                    }
-                    antiguoTurno.setTelefono(turno.getTelefono());
+            if (turno.getDuracion() != null) {
+                if (String.valueOf(turno.getDuracion()).length() > 2) {
+                    throw new RuntimeException("El valor de la duración excede máximo de caracteres (2)");
                 }
+                antiguoTurno.setDuracion(turno.getDuracion());
             }
 
-            if (turno.getRun() != null) {
-                if (turnoRepository.existsByRun(turno.getRun())) {
-                    throw new RuntimeException("El RUN ya existe");
-                }else{
-                    if (String.valueOf(turno.getRun()).length() > 8) {
-                        throw new RuntimeException("El valor RUN excede máximo de caracteres (8)");
-                    }
-                    antiguoTurno.setRun(turno.getRun());
-                }
+            if (turno.getFechaHoraInicio() != null) {
+                antiguoTurno.setFechaHoraInicio(turno.getFechaHoraInicio());
             }
 
-            if (turno.getDv() != null) {
-                if (turno.getDv().length() > 1) {
-                    throw new RuntimeException("El valor DV excede máximo de caracteres (1)");
-                }
-                antiguoTurno.setDv(turno.getDv());
+            if (turno.getFechaHoraFin() != null) {
+                antiguoTurno.setFechaHoraFin(turno.getFechaHoraFin());
             }
 
-            if (turno.getA_paterno() != null) {
-                if (turno.getA_paterno().length() > 50) {
-                    throw new RuntimeException("El valor a_paterno excede máximo de caracteres (50)");
-                }
-                antiguoTurno.setA_paterno(turno.getA_paterno());
-            }
+            // Validar consistencia de fechas después de la actualización
+            validarFechas(antiguoTurno.getFechaHoraInicio(), antiguoTurno.getFechaHoraFin());
 
-            if (turno.getA_materno() != null) {
-                if (turno.getA_materno().length() > 50) {
-                    throw new RuntimeException("El valor a_materno excede máximo de caracteres (50)");
-                }
-                antiguoTurno.setA_materno(turno.getA_materno());
-            }
-
-            if (turno.getFecha_registro() != null) {
-                antiguoTurno.setFecha_registro(turno.getFecha_registro());
-            }
-
+            // Calcular duracion de turno
+            antiguoTurno.setDuracion(calcularDuracion(antiguoTurno));
 
             return turnoRepository.save(antiguoTurno);
 
         } catch (Exception e) {
-            throw new RuntimeException("Error al actualizar el Ciudadano: " + e.getMessage());
+            throw new RuntimeException("Error al actualizar el Turno: " + e.getMessage());
         }
     }
 
-    public void delete(long id){
+    /**
+     * Elimina un turno por su ID.
+     * @param id ID del turno a eliminar
+     * @throws RuntimeException Si no se encuentra el turno o hay error al eliminar
+     */
+    public void delete(long id) {
         try {
             if (!turnoRepository.existsById(id)) {
-                throw new NoSuchElementException("Ciudadano no encontrado");
+                throw new NoSuchElementException("Turno no encontrado");
             }
             turnoRepository.deleteById(id);
-
         } catch (Exception e) {
-            throw new RuntimeException("Error al encontrar Ciudadano: " + e.getMessage());
+            throw new RuntimeException("Error al eliminar Turno: " + e.getMessage());
         }
     }
 
-    public void validarCiudadano(@NotNull Turno turno) {
-
-        if (turnoRepository.existsByRun(turno.getRun())) {
-            throw new RuntimeException("El RUN ya existe");
-        }
-
-        if (turnoRepository.existsByTelefono(turno.getTelefono())) {
-            throw new RuntimeException("El Telefono ya existe");
-        }
-
-        if (String.valueOf(turno.getRun()).length() > 8) {
-            throw new RuntimeException("El valor RUN excede máximo de caracteres (8)");
-        }
-
-        if (turno.getDv().length() > 1) {
-            throw new RuntimeException("El valor DV excede máximo de caracteres (1)");
+    /**
+     * Valida los datos de un turno antes de guardarlo o actualizarlo.
+     * @param turno Turno a validar
+     * @throws RuntimeException Si alguna validación falla
+     */
+    public void validarTurno(@NotNull Turno turno) {
+        if (turno.getNombre() == null || turno.getNombre().isEmpty()) {
+            throw new RuntimeException("El nombre del turno es requerido");
         }
 
         if (turno.getNombre().length() > 50) {
             throw new RuntimeException("El valor nombre excede máximo de caracteres (50)");
         }
 
-        if (turno.getA_paterno().length() > 50) {
-            throw new RuntimeException("El valor a_paterno excede máximo de caracteres (50)");
+        if (turno.getDuracion() != null && String.valueOf(turno.getDuracion()).length() > 2) {
+            throw new RuntimeException("El valor de la duración excede máximo de caracteres (2)");
         }
 
-        if (turno.getA_materno().length() > 50) {
-            throw new RuntimeException("El valor a_materno excede máximo de caracteres (50)");
+        if (turno.getFechaHoraInicio() == null) {
+            throw new RuntimeException("La fecha/hora de inicio es requerida");
         }
 
-        if (String.valueOf(turno.getTelefono()).length()> 9) {
-            throw new RuntimeException("El valor telefono excede máximo de caracteres (9)");
+        if (turno.getFechaHoraFin() == null) {
+            throw new RuntimeException("La fecha/hora de fin es requerida");
         }
 
+        validarFechas(turno.getFechaHoraInicio(), turno.getFechaHoraFin());
+
+        turno.setDuracion(calcularDuracion(turno));
     }
 
-    public void asignarCredencial(long ciudadanoId, long credencialId) {
-        Turno turno = turnoRepository.findById(ciudadanoId)
-                .orElseThrow(() -> new RuntimeException("Ciudadano no encontrado"));
-
-        Equipo equipo = equipoRepository.findById(credencialId)
-                .orElseThrow(() -> new RuntimeException("Equipo no encontrada"));
-
-        turno.setEquipo(equipo);
-        turnoRepository.save(turno);
+    /**
+     * Calcula la duración automática del turno en horas.
+     * @param turno Turno para calcular la duración
+     * @return Duración en horas entre fechaHoraInicio y fechaHoraFin
+     */
+    private long calcularDuracion(Turno turno) {
+        if (turno.getFechaHoraInicio() == null || turno.getFechaHoraFin() == null) {
+            throw new RuntimeException("Las fechas de inicio y fin son requeridas para calcular la duración");
+        }
+        return java.time.Duration.between(turno.getFechaHoraInicio(), turno.getFechaHoraFin()).toHours();
     }
 
+    /**
+     * Valida la consistencia de las fechas del turno.
+     * @param fechaHoraInicio Fecha de inicio del turno
+     * @param fechaHoraFin Fecha de fin del turno
+     * @throws IllegalArgumentException Si las fechas son inconsistentes
+     */
+    private void validarFechas(java.time.LocalDateTime fechaHoraInicio, java.time.LocalDateTime fechaHoraFin) {
+        if (fechaHoraInicio == null || fechaHoraFin == null) {
+            throw new IllegalArgumentException("Ambas fechas son requeridas para la validación");
+        }
+        if (fechaHoraInicio.isAfter(fechaHoraFin)) {
+            throw new IllegalArgumentException("La fecha de inicio debe ser anterior a la fecha de fin");
+        }
+    }
 }
