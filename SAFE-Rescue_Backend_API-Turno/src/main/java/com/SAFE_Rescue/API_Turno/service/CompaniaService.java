@@ -1,7 +1,6 @@
 package com.SAFE_Rescue.API_Turno.service;
 
 import com.SAFE_Rescue.API_Turno.modelo.Compania;
-import com.SAFE_Rescue.API_Turno.modelo.Equipo;
 import com.SAFE_Rescue.API_Turno.modelo.UbicacionDTO;
 import com.SAFE_Rescue.API_Turno.repository.CompaniaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,8 +59,8 @@ public class CompaniaService {
         validarCompania(compania);
 
         // Validar ubicación remota
-        if (compania.getUbicacion() != null) {
-            compania.setUbicacion(obtenerUbicacionRemota(compania.getUbicacion().getId()));
+        if (compania.getUbicacionExternaId() != null) {
+            validarUbicacionExterna(compania.getUbicacionExternaId());
         }
 
         return companiaRepository.save(compania);
@@ -84,11 +83,9 @@ public class CompaniaService {
             antiguaCompania.setNombre(compania.getNombre());
         }
 
-        // Validar ubicación remota si se está actualizando
-        if (compania.getUbicacion() != null &&
-                !compania.getUbicacion().equals(antiguaCompania.getUbicacion())) {
-            UbicacionDTO ubicacion = obtenerUbicacionRemota(compania.getUbicacion().getId());
-            antiguaCompania.setUbicacion(ubicacion);
+        if (compania.getUbicacionExternaId() != null) {
+            validarUbicacionExterna(compania.getUbicacionExternaId());
+            antiguaCompania.setUbicacionExternaId(compania.getUbicacionExternaId());
         }
 
         return companiaRepository.save(antiguaCompania);
@@ -105,6 +102,7 @@ public class CompaniaService {
         }
         companiaRepository.deleteById(id);
     }
+
 
     /**
      * Obtiene información completa de una ubicación remota.
@@ -130,6 +128,7 @@ public class CompaniaService {
         }
     }
 
+
     /**
      * Valida los datos básicos de una compañía.
      * @param compania Compañía a validar
@@ -153,6 +152,15 @@ public class CompaniaService {
         }
     }
 
+    /**
+     * Valida que una ubicación exista en el servicio externo
+     */
+    private void validarUbicacionExterna(Long ubicacionId) {
+        if (ubicacionId != null) {
+            obtenerUbicacionRemota(ubicacionId); // Si falla, lanzará excepción
+        }
+    }
+
     // MÉTODOS DE ASIGNACIÓN DE RELACIONES
 
     /**
@@ -161,40 +169,10 @@ public class CompaniaService {
      * @param ubicacionId ID de la ubicacion
      */
     public void asignarUbicacion(long companiaId, long ubicacionId) {
-        Compania compania = buscarCompania(companiaId);
-        UbicacionDTO ubicacion = buscarUbicacion(ubicacionId);
-        compania.setUbicacion(ubicacion);
+        Compania compania = findByID(companiaId);
+        validarUbicacionExterna(ubicacionId); // Valida que exista
+        compania.setUbicacionExternaId(ubicacionId);
         companiaRepository.save(compania);
     }
 
-    /**
-     * Busca una Compania por su ID en el repositorio.
-     *
-     * @param companiaId ID de la compania a buscar (debe ser positivo)
-     * @return Compania encontrado
-     * @throws RuntimeException Si no se encuentra la Compania con el ID especificado
-     * @throws IllegalArgumentException Si el ID proporcionado no es válido
-     */
-    private Compania buscarCompania(long companiaId) {
-        if (companiaId <= 0) {
-            throw new IllegalArgumentException("El ID de la compania debe ser un número positivo");
-        }
-        return companiaRepository.findById(companiaId)
-                .orElseThrow(() -> new RuntimeException("Compañía no encontrada"));
-    }
-
-    /**
-     * Busca una Ubicacion por su ID en el repositorio.
-     *
-     * @param ubicacionId ID de la ubicaion a buscar (debe ser positivo)
-     * @return Ubicacion encontrado
-     * @throws RuntimeException Si no se encuentra la Compania con el ID especificado
-     * @throws IllegalArgumentException Si el ID proporcionado no es válido
-     */
-    private UbicacionDTO buscarUbicacion(long ubicacionId) {
-        if (ubicacionId <= 0) {
-            throw new IllegalArgumentException("El ID de la Ubicacion debe ser un número positivo");
-        }
-        return obtenerUbicacionRemota(ubicacionId);
-    }
 }

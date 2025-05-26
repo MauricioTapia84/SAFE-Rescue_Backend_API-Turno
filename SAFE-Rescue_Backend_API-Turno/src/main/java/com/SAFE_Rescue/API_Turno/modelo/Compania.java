@@ -42,6 +42,10 @@ public class Compania {
      *
      * @see UbicacionDTO
      */
+    @Column(name = "ubicacion_externa_id")
+    private Long ubicacionExternaId;
+
+    @Transient
     private UbicacionDTO ubicacion;
 
 }

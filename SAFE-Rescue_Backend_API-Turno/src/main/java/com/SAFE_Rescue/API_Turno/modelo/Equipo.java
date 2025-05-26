@@ -58,7 +58,10 @@ public class Equipo {
      *
      * @see VehiculoDTO
      */
-    private List<VehiculoDTO> vehiculosAsignados;
+    @ElementCollection
+    @CollectionTable(name = "equipo_vehiculos", joinColumns = @JoinColumn(name = "equipo_id"))
+    @Column(name = "vehiculo_id")
+    private List<Long> vehiculosAsignadosIds;
 
     /**
      * Personal asignado al equipo, representado como DTOs de bomberos.
@@ -70,7 +73,10 @@ public class Equipo {
      *
      * @see BomberoDTO
      */
-    private List<BomberoDTO> personal;
+    @ElementCollection
+    @CollectionTable(name = "equipo_personal", joinColumns = @JoinColumn(name = "equipo_id"))
+    @Column(name = "bombero_id")
+    private List<Long> personalIds;
 
     /**
      * Recursos disponibles para el equipo, representados como DTOs.
@@ -82,7 +88,10 @@ public class Equipo {
      *
      * @see RecursoDTO
      */
-    private List<RecursoDTO> recursosDisponibles;
+    @ElementCollection
+    @CollectionTable(name = "equipo_recursos", joinColumns = @JoinColumn(name = "equipo_id"))
+    @Column(name = "recurso_id")
+    private List<Long> recursosDisponiblesIds;
 
     /**
      * Turno asignado al equipo
@@ -107,4 +116,14 @@ public class Equipo {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "tipo_equipo_id", referencedColumnName = "id")
     private TipoEquipo tipoEquipo;
+
+    // Campos transient para datos completos cuando sea necesario
+    @Transient
+    private List<VehiculoDTO> vehiculosAsignados;
+
+    @Transient
+    private List<BomberoDTO> personal;
+
+    @Transient
+    private List<RecursoDTO> recursosDisponibles;
 }
