@@ -1,7 +1,6 @@
 package com.SAFE_Rescue.API_Turno.repository;
 
 import com.SAFE_Rescue.API_Turno.modelo.Compania;
-import com.SAFE_Rescue.API_Turno.modelo.UbicacionDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -110,8 +110,8 @@ public class CompaniaController {
      * @param ubicacionId ID de la Ubicaion
      * @return ResponseEntity con mensaje de confirmación o error
      */
-    @PostMapping("/{companiaId}/asignar-ubicacion/{ubicacionId)}")
-    public ResponseEntity<String> asignarUbicacion(@PathVariable int companiaId, @PathVariable long ubicacionId) {
+    @PostMapping("/{companiaId}/asignar-ubicacion/{ubicacionId}")
+    public ResponseEntity<String> asignarUbicacion(@PathVariable Long companiaId, @PathVariable Long ubicacionId) {
         try {
             companiaService.asignarUbicacion(companiaId, ubicacionId);
             return ResponseEntity.ok("Ubicacion asignada a la Compania exitosamente");

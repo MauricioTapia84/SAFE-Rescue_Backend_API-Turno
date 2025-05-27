@@ -1,30 +1,29 @@
 package com.SAFE_Rescue.API_Turno.modelo;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * DTO (Data Transfer Object) que representa una ubicación geográfica.
- * Contiene información estructurada de direcciones para uso en el sistema.
- *
- * <p>Se utiliza para transferir datos de ubicación entre capas de la aplicación
- * sin exponer la entidad completa del modelo de dominio.</p>
- */
-@Data
+@Entity
+@Table(name = "ubicacion")
 @NoArgsConstructor
 @AllArgsConstructor
-public class UbicacionDTO {
+@Data
+public class Ubicacion {
 
     /**
      * Identificador único de la ubicación en el sistema
      */
-    private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     /**
      * Nombre de la calle o avenida
      * Ejemplo: "Av. Libertador Bernardo O'Higgins"
      */
+    @Column(length = 50, nullable = false)
     private String calle;
 
     /**
@@ -32,17 +31,20 @@ public class UbicacionDTO {
      * Debe ser un valor positivo
      * Ejemplo: 1234
      */
+    @Column(unique = true, length = 5, nullable = false)
     private int numeracion;
 
     /**
      * Comuna o distrito de la ubicación
      * Ejemplo: "Santiago Centro"
      */
+    @Column(length = 50, nullable = false)
     private String comuna;
 
     /**
      * Región o estado/provincia
      * Ejemplo: "Región Metropolitana"
      */
+    @Column(length = 50, nullable = false)
     private String region;
 }

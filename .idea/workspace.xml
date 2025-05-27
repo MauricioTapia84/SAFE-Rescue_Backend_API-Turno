@@ -5,12 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4855b24e-83ed-47e9-b44b-d816b960441a" name="Changes" comment="Se realizan modificaciones, correccion de errores, se realizan pruebas, y se deja operativo el codigo">
+      <change afterPath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Bombero.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/repository/UbicacionRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/controller/CompaniaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/controller/CompaniaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/modelo/BomberoDTO.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Compania.java" beforeDir="false" afterPath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Compania.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Equipo.java" beforeDir="false" afterPath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Equipo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/modelo/RecursoDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Recurso.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/modelo/UbicacionDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Ubicacion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/modelo/VehiculoDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Vehiculo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/repository/CompaniaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/repository/CompaniaRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/repository/EquipoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/repository/EquipoRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/service/CompaniaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/service/CompaniaService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/service/EquipoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/service/EquipoService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/controller/CompaniaController.class" beforeDir="false" afterPath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/controller/CompaniaController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/modelo/Equipo.class" beforeDir="false" afterPath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/modelo/Equipo.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +33,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -48,17 +61,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.ApiAdministradorApplication.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Mauricio/Documents/GitHub/desktop-tutorial/SAFE-Rescue_Backend_API-Turno&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.ApiAdministradorApplication.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/SSDD/Documents/GitHub/SAFE-Rescue_Backend_API-Turno"
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

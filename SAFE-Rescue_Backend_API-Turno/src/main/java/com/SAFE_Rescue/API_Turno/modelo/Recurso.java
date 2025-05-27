@@ -1,29 +1,33 @@
 package com.SAFE_Rescue.API_Turno.modelo;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * DTO (Data Transfer Object) que representa un recurso disponible para emergencias.
- * Permite transferir información sobre recursos entre diferentes capas de la aplicación
- * sin exponer la entidad completa del modelo de dominio.
- */
-@Data
+import java.util.Date;
+
+
+@Entity
+@Table(name = "recurso")
 @NoArgsConstructor
 @AllArgsConstructor
-public class RecursoDTO {
+@Data
+public class Recurso {
 
     /**
      * Identificador único del recurso en el sistema
      */
-    private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     /**
      * Nombre descriptivo del recurso
      * Ejemplos: "Camión bomba", "Equipo de rescate", "Botiquín primeros auxilios"
      * Debe ser un valor no nulo y con una longitud máxima recomendada de 100 caracteres
      */
+    @Column(length = 50, nullable = false)
     private String nombre;
 
     /**
@@ -31,6 +35,7 @@ public class RecursoDTO {
      * Ejemplos: "VEHICULO", "EQUIPO_MEDICO", "HERRAMIENTA", "MATERIAL"
      * Permite agrupar recursos por tipo para búsquedas y filtrados
      */
+    @Column(length = 50, nullable = false)
     private String tipoRecurso;
 
     /**
@@ -38,6 +43,7 @@ public class RecursoDTO {
      * Valor entero no negativo (>= 0)
      * Representa unidades disponibles en inventario
      */
+    @Column(unique = true, length = 9, nullable = false)
     private int cantidad;
 
     /**
@@ -46,5 +52,8 @@ public class RecursoDTO {
      * false = No disponible (en mantenimiento, agotado, etc.)
      * Por defecto debería inicializarse como true (disponible)
      */
-    private boolean estado;
+    @Column(nullable = false)
+    private boolean estado = true;
+
+
 }

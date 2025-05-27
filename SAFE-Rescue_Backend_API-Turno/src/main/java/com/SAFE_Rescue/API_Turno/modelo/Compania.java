@@ -33,19 +33,8 @@ public class Compania {
     @Column(unique = true, length = 8, nullable = false)
     private String nombre;
 
-    /**
-     * Representa la ubicación física de la compañía, obtenida desde el servicio externo de incidentes.
-     * <p>
-     * Este campo almacena los datos de ubicación mapeados desde la API externa mediante el DTO.
-     * La información se obtiene mediante una llamada REST al endpoint de ubicaciones del servicio de incidentes.
-     * </p>
-     *
-     * @see UbicacionDTO
-     */
-    @Column(name = "ubicacion_externa_id")
-    private Long ubicacionExternaId;
 
-    @Transient
-    private UbicacionDTO ubicacion;
+    @Column(name = "ubicacion")
+    private Ubicacion ubicacion;
 
 }

@@ -22,11 +22,6 @@ import java.util.NoSuchElementException;
 @Transactional
 public class EquipoService {
 
-    // CONSTANTES PARA ENDPOINTS EXTERNOS
-    private static final String API_BOMBEROS_BASE_URL = "http://api-bomberos/bomberos-resumido";
-    private static final String API_VEHICULOS_BASE_URL = "http://api-recursos/vehiculos";
-    private static final String API_RECURSOS_BASE_URL = "http://api-recursos/recursos"; // Corregido typo
-
     // REPOSITORIOS INYECTADOS
     @Autowired private EquipoRepository equipoRepository;
     @Autowired private TurnoService turnoService;
@@ -35,7 +30,6 @@ public class EquipoService {
     @Autowired private CompaniaRepository companiaRepository;
     @Autowired private TipoEquipoRepository tipoEquipoRepository;
     @Autowired private TurnoRepository turnoRepository;
-    @Autowired private RestTemplate restTemplate;
 
     /**
      * Obtiene todos los equipos registrados en el sistema.
@@ -74,7 +68,7 @@ public class EquipoService {
             equipo.setCompania(companiaGuardada);
             equipo.setTipoEquipo(tipoEquipoGuardado);
 
-            validarEquipo(equipo, equipo);
+            validarEquipo(equipo);
 
             // Validación de recursos externos
             if (equipo.getVehiculosAsignados() != null) {
@@ -188,35 +182,25 @@ public class EquipoService {
 
     // MÉTODOS PRIVADOS DE VALIDACIÓN Y UTILIDADES
 
-    /**
-     * Valida los campos de un equipo antes de guardar o actualizar.
-     * @param fuente Equipo con datos nuevos
-     * @param destino Equipo a actualizar
-     * @throws RuntimeException Si hay errores de validación
-     */
-    private void validarEquipo(Equipo fuente, Equipo destino) {
-        if (fuente.getNombre() != null) {
-            if (fuente.getNombre().length() > 50) {
+    private void validarEquipo(Equipo equipo) {
+        if (equipo.getNombre() != null) {
+            if (equipo.getNombre().length() > 50) {
                 throw new RuntimeException("El nombre no puede exceder 50 caracteres");
             }
-            destino.setNombre(fuente.getNombre());
         }
 
-        if (fuente.getCantidadMiembros() != null) {
-            if (fuente.getCantidadMiembros() > 99) {
-                throw new RuntimeException("La cantidad máxima de miembros es 99");
+        if (equipo.getCantidadMiembros() != null) {
+            if (String.valueOf(equipo.getCantidadMiembros()).length()> 5) {
+                throw new RuntimeException("El valor de la Cantidad de miembros excede máximo de caracteres (2)");
             }
-            destino.setCantidadMiembros(fuente.getCantidadMiembros());
         }
 
-        if (fuente.getLider() != null) {
-            if (fuente.getLider().length() > 50) {
+        if (equipo.getLider() != null) {
+            if (equipo.getLider().length() > 50) {
                 throw new RuntimeException("El nombre del líder no puede exceder 50 caracteres");
             }
-            destino.setLider(fuente.getLider());
         }
 
-        destino.setEstado(fuente.isEstado());
     }
 
     private void actualizarRelaciones(Equipo fuente, Equipo destino) {

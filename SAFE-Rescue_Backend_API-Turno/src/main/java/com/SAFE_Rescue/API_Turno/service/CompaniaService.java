@@ -1,12 +1,11 @@
 package com.SAFE_Rescue.API_Turno.service;
 
 import com.SAFE_Rescue.API_Turno.modelo.Compania;
-import com.SAFE_Rescue.API_Turno.modelo.UbicacionDTO;
+import com.SAFE_Rescue.API_Turno.modelo.Ubicacion;
 import com.SAFE_Rescue.API_Turno.repository.CompaniaRepository;
+import com.SAFE_Rescue.API_Turno.repository.UbicacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -25,9 +24,7 @@ public class CompaniaService {
     private CompaniaRepository companiaRepository;
 
     @Autowired
-    private RestTemplate restTemplate;
-
-    private static final String API_UBICACIONES_BASE_URL = "http://api-incidentes/ubicaciones";
+    private UbicacionRepository ubicacionRepository;
 
     /**
      * Obtiene todas las compañías registradas.
@@ -56,12 +53,14 @@ public class CompaniaService {
      * @throws RuntimeException Si no se puede verificar la ubicación remota
      */
     public Compania save(Compania compania) {
-        validarCompania(compania);
 
-        // Validar ubicación remota
-        if (compania.getUbicacionExternaId() != null) {
-            validarUbicacionExterna(compania.getUbicacionExternaId());
-        }
+        Ubicacion ubicacionGuargada=compania.getUbicacion();
+
+        validarUbicacion(ubicacionGuargada);
+
+        compania.setUbicacion(ubicacionGuargada);
+
+        validarCompania(compania);
 
         return companiaRepository.save(compania);
     }
@@ -78,13 +77,13 @@ public class CompaniaService {
         Compania antiguaCompania = companiaRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Compañía no encontrada con ID: " + id));
 
+        validarCompania(compania);
         if (compania.getNombre() != null) {
-            validarNombreCompania(compania.getNombre());
             antiguaCompania.setNombre(compania.getNombre());
         }
 
-        if (compania.getUbicacionExternaId() != null) {
-            validarUbicacionExterna(compania.getUbicacionExternaId());
+        if (compania.getUbicacion() != null) {
+            compania.getUbicacion();
             antiguaCompania.setUbicacionExternaId(compania.getUbicacionExternaId());
         }
 
@@ -104,30 +103,10 @@ public class CompaniaService {
     }
 
 
-    /**
-     * Obtiene información completa de una ubicación remota.
-     * @param ubicacionId ID de la ubicación a consultar
-     * @return DTO con la información completa de la ubicación
-     * @throws RuntimeException Si la ubicación no existe o hay error en la comunicación
-     */
-    public UbicacionDTO obtenerUbicacionRemota(Long ubicacionId) {
-        String url = API_UBICACIONES_BASE_URL + "/" + ubicacionId;
-        try {
-            ResponseEntity<UbicacionDTO> response = restTemplate.getForEntity(
-                    url,
-                    UbicacionDTO.class
-            );
-
-            if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null) {
-                throw new RuntimeException("Ubicación no encontrada con ID: " + ubicacionId);
-            }
-
-            return response.getBody();
-        } catch (Exception e) {
-            throw new RuntimeException("Error al consultar ubicación remota: " + e.getMessage(), e);
-        }
+    public Ubicacion obtenerUbicacion(Long ubicacionId) {
+        return ubicacionRepository.findById(ubicacionId)
+                .orElseThrow(() -> new RuntimeException("Ubicación no encontrada con ID: " + ubicacionId));
     }
-
 
     /**
      * Valida los datos básicos de una compañía.
@@ -138,28 +117,48 @@ public class CompaniaService {
         if (compania.getNombre() == null || compania.getNombre().trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre de la compañía es requerido");
         }
-        validarNombreCompania(compania.getNombre());
-    }
-
-    /**
-     * Valida el nombre de una compañía.
-     * @param nombre Nombre a validar
-     * @throws IllegalArgumentException Si el nombre excede el límite de caracteres
-     */
-    private void validarNombreCompania(String nombre) {
-        if (nombre.length() > 50) {
+        if (compania.getNombre().length() > 50) {
             throw new IllegalArgumentException("El nombre no puede exceder los 50 caracteres");
         }
     }
 
-    /**
-     * Valida que una ubicación exista en el servicio externo
-     */
-    private void validarUbicacionExterna(Long ubicacionId) {
-        if (ubicacionId != null) {
-            obtenerUbicacionRemota(ubicacionId); // Si falla, lanzará excepción
+
+    private void validarUbicacion(Ubicacion ubicacion) {
+
+        if (0 <= ubicacion.getNumeracion() ) {
+            throw new IllegalArgumentException("La numeración de la calle es requerido");
+        } else {
+            if (String.valueOf(ubicacion.getNumeracion()).length()> 5) {
+                throw new RuntimeException("El valor de la Numeración excede máximo de caracteres (5)");
+            }
         }
+
+        if (ubicacion.getCalle() != null) {
+            if (ubicacion.getCalle().length() > 50) {
+                throw new RuntimeException("El nombre de la calle no puede exceder 50 caracteres");
+            }
+        }else{
+            throw new IllegalArgumentException("El nombre de la calle es requerido");
+        }
+
+        if (ubicacion.getComuna() != null) {
+            if (ubicacion.getComuna().length() > 50) {
+                throw new RuntimeException("El nombre de la comuna no puede exceder 50 caracteres");
+            }
+        }else{
+            throw new IllegalArgumentException("El nombre de la comuna es requerido");
+        }
+
+        if (ubicacion.getRegion() != null) {
+            if (ubicacion.getRegion().length() > 50) {
+                throw new RuntimeException("El nombre de la Región no puede exceder 50 caracteres");
+            }
+        }else{
+            throw new IllegalArgumentException("El nombre de la Región es requerido");
+        }
+
     }
+
 
     // MÉTODOS DE ASIGNACIÓN DE RELACIONES
 
@@ -168,10 +167,10 @@ public class CompaniaService {
      * @param companiaId ID de la compañía
      * @param ubicacionId ID de la ubicacion
      */
-    public void asignarUbicacion(long companiaId, long ubicacionId) {
+    public void asignarUbicacion(Long companiaId, Long ubicacionId) {
         Compania compania = findByID(companiaId);
-        validarUbicacionExterna(ubicacionId); // Valida que exista
-        compania.setUbicacionExternaId(ubicacionId);
+        Ubicacion ubicacion = obtenerUbicacion(ubicacionId);
+        compania.setUbicacion(ubicacion);
         companiaRepository.save(compania);
     }
 
