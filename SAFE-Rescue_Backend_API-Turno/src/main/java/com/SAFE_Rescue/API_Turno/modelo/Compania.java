@@ -33,8 +33,8 @@ public class Compania {
     @Column(unique = true, length = 8, nullable = false)
     private String nombre;
 
-
-    @Column(name = "ubicacion")
+    @OneToOne
+    @JoinColumn(name = "ubicacion_id", referencedColumnName = "id")
     private Ubicacion ubicacion;
 
 }

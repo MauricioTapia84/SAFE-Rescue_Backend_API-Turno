@@ -2,6 +2,7 @@ package com.SAFE_Rescue.API_Turno.service;
 
 import com.SAFE_Rescue.API_Turno.modelo.TipoEquipo;
 import com.SAFE_Rescue.API_Turno.repository.TipoEquipoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ public class TipoEquipoService {
     @Autowired
     private TipoEquipoRepository tipoEquipoRepository;
 
+    // MÉTODOS CRUD PRINCIPALES
     /**
      * Obtiene todos los tipos de equipo registrados.
      * @return Lista de todos los tipos de equipo
@@ -44,8 +46,14 @@ public class TipoEquipoService {
      * @throws IllegalArgumentException Si el tipo de equipo no pasa las validaciones
      */
     public TipoEquipo save(TipoEquipo tipoEquipo) {
-        validarTipoEquipo(tipoEquipo);
-        return tipoEquipoRepository.save(tipoEquipo);
+        try{
+            validarTipoEquipo(tipoEquipo);
+            return tipoEquipoRepository.save(tipoEquipo);
+        } catch (EntityNotFoundException e) {
+            throw new RuntimeException("Error al guardar el TipoEquipo: " + e.getMessage());
+        } catch (Exception ex) {
+            throw new RuntimeException("Error inesperado: " + ex.getMessage());
+        }
     }
 
     /**
@@ -87,9 +95,11 @@ public class TipoEquipoService {
      */
     private void validarTipoEquipo(TipoEquipo tipoEquipo) {
         if (tipoEquipo.getNombre() == null || tipoEquipo.getNombre().trim().isEmpty()) {
-            throw new IllegalArgumentException("El nombre del tipo de equipo es requerido");
+            throw new IllegalArgumentException("El nombre del Tipo Equipoa es requerido");
         }
-        validarNombreTipoEquipo(tipoEquipo.getNombre());
+        if (tipoEquipo.getNombre().length() > 50) {
+            throw new IllegalArgumentException("El nombre no puede exceder los 50 caracteres");
+        }
     }
 
     /**

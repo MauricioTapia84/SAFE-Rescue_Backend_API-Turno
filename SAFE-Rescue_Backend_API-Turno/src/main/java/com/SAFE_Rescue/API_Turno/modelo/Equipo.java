@@ -49,15 +49,18 @@ public class Equipo {
     private String lider;
 
 
-    @Column(name = "vehiculo_id")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "equipo_id")
     private List<Vehiculo> vehiculos;
 
 
-    @Column(name = "bomberos")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "equipo_id")
     private List<Bombero> personal;
 
 
-    @Column(name = "recursos")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "equipo_id")
     private List<Recurso> recursos;
 
     /**

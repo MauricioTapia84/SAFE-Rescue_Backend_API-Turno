@@ -27,14 +27,14 @@ public class Bombero {
     @Column(length = 50, nullable = false)
     private String nombre;
 
-    @Column(length = 50, nullable = false)
-    private String a_paterno;
+    @Column(name="a_paterno",length = 50, nullable = false)
+    private String aPaterno;
 
-    @Column(length = 50, nullable = false)
-    private String a_materno;
+    @Column(name="a_materno",length = 50, nullable = false)
+    private String aMaterno;
 
-    @Column(nullable = false)
-    private Date fecha_registro;
+    @Column(name="fecha_registro",nullable = false)
+    private Date fechaRegistro;
 
     @Column(unique = true, length = 9, nullable = false)
     private Long telefono;

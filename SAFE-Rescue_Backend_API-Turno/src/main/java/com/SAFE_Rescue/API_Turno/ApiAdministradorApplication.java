@@ -12,9 +12,4 @@ public class ApiAdministradorApplication {
 		SpringApplication.run(ApiAdministradorApplication.class, args);
 	}
 
-	@Bean
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
-
 }

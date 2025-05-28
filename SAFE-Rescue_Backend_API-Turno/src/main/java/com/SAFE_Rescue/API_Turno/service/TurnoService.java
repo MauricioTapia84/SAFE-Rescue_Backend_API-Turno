@@ -22,6 +22,8 @@ public class TurnoService {
     @Autowired
     private TurnoRepository turnoRepository;
 
+    // MÉTODOS CRUD PRINCIPALES
+
     /**
      * Obtiene todos los turnos existentes.
      * @return Lista de todos los turnos
@@ -53,8 +55,8 @@ public class TurnoService {
             return turnoRepository.save(turno);
         } catch (EntityNotFoundException e) {
             throw new RuntimeException("Error al guardar el Turno: " + e.getMessage());
-        } catch (Exception e) {
-            throw new RuntimeException("Error inesperado: " + e.getMessage());
+        } catch (Exception ex) {
+            throw new RuntimeException("Error inesperado: " + ex.getMessage());
         }
     }
 
