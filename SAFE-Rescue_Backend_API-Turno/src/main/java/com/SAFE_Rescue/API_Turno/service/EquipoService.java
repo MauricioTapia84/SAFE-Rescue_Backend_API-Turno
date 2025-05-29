@@ -66,7 +66,7 @@ public class EquipoService {
      */
     public Equipo save(Equipo equipo) {
         try {
-            // Validación y persistencia de relaciones
+            // Validación y persistencia de relaciones principales
             Turno turnoGuardado = turnoService.save(equipo.getTurno());
             Compania companiaGuardada = companiaService.save(equipo.getCompania());
             TipoEquipo tipoEquipoGuardado = tipoEquipoService.save(equipo.getTipoEquipo());
@@ -75,9 +75,12 @@ public class EquipoService {
             equipo.setCompania(companiaGuardada);
             equipo.setTipoEquipo(tipoEquipoGuardado);
 
+            // Asignación de recursos asociados
+            asignarVehiculosAlEquipo(equipo);
+            asignarBomberosAlEquipo(equipo);
+            asignarRecursosAlEquipo(equipo);
+
             validarEquipo(equipo);
-
-
 
             return equipoRepository.save(equipo);
         } catch (Exception e) {
@@ -104,6 +107,23 @@ public class EquipoService {
 
         try {
             actualizarRelaciones(equipo, equipoExistente);
+
+            // Actualizar recursos asociados
+            if (equipo.getVehiculos() != null) {
+                asignarVehiculosAlEquipo(equipo);
+                equipoExistente.setVehiculos(equipo.getVehiculos());
+            }
+
+            if (equipo.getPersonal() != null) {
+                asignarBomberosAlEquipo(equipo);
+                equipoExistente.setPersonal(equipo.getPersonal());
+            }
+
+            if (equipo.getRecursos() != null) {
+                asignarRecursosAlEquipo(equipo);
+                equipoExistente.setRecursos(equipo.getRecursos());
+            }
+
             validarEquipo(equipoExistente);
             return equipoRepository.save(equipoExistente);
         } catch (Exception e) {
@@ -184,6 +204,38 @@ public class EquipoService {
 
         equipo.setPersonal(obtenerPersonal(bomberosIds));
         equipoRepository.save(equipo);
+    }
+    /**
+     * Asigna bomberos a un equipo obteniéndolos de la base de datos
+     * @param equipo Equipo al que se asignarán los bomberos
+     */
+    private void asignarBomberosAlEquipo(Equipo equipo) {
+        if (equipo.getPersonal() != null && !equipo.getPersonal().isEmpty()) {
+            List<Long> bomberosIds = extraerIdsDeBomberos(equipo.getPersonal());
+            equipo.setPersonal(obtenerPersonal(bomberosIds));
+        }
+    }
+
+    /**
+     * Asigna recursos a un equipo obteniéndolos de la base de datos
+     * @param equipo Equipo al que se asignarán los recursos
+     */
+    private void asignarRecursosAlEquipo(Equipo equipo) {
+        if (equipo.getRecursos() != null && !equipo.getRecursos().isEmpty()) {
+            List<Long> recursosIds = extraerIdsRecursos(equipo.getRecursos());
+            equipo.setRecursos(obtenerRecursos(recursosIds));
+        }
+    }
+
+    /**
+     * Asigna vehículos a un equipo obteniéndolos de la base de datos
+     * @param equipo Equipo al que se asignarán los vehículos
+     */
+    private void asignarVehiculosAlEquipo(Equipo equipo) {
+        if (equipo.getVehiculos() != null && !equipo.getVehiculos().isEmpty()) {
+            List<Long> vehiculosIds = extraerIdsVehiculos(equipo.getVehiculos());
+            equipo.setVehiculos(obtenerVehiculos(vehiculosIds));
+        }
     }
 
     // MÉTODOS PRIVADOS DE VALIDACIÓN Y UTILIDADES
@@ -296,6 +348,42 @@ public class EquipoService {
         } catch (Exception e) {
             throw new RuntimeException("Error al obtener lista de Recursos: " + e.getMessage(), e);
         }
+    }
+
+    private List<Long> extraerIdsDeBomberos(List<Bombero> bomberos) {
+        if (bomberos == null || bomberos.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        List<Long> ids = new ArrayList<>();
+        for (Bombero bombero : bomberos) {
+            ids.add(Long.valueOf(bombero.getId()));
+        }
+        return ids;
+    }
+
+    private List<Long> extraerIdsVehiculos(List<Vehiculo> vehiculos) {
+        if (vehiculos == null || vehiculos.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        List<Long> ids = new ArrayList<>();
+        for (Vehiculo vehiculo : vehiculos) {
+            ids.add(Long.valueOf(vehiculo.getId()));
+        }
+        return ids;
+    }
+
+    private List<Long> extraerIdsRecursos(List<Recurso> recursos) {
+        if (recursos == null || recursos.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        List<Long> ids = new ArrayList<>();
+        for (Recurso recurso: recursos) {
+            ids.add(Long.valueOf(recurso.getId()));
+        }
+        return ids;
     }
 
 }

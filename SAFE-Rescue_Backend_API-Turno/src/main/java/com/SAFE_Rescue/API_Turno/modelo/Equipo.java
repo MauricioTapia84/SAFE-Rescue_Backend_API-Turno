@@ -1,5 +1,6 @@
 package com.SAFE_Rescue.API_Turno.modelo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -51,16 +52,19 @@ public class Equipo {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "equipo_id")
+    //@JsonIgnore
     private List<Vehiculo> vehiculos;
 
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "equipo_id")
+    //@JsonIgnore
     private List<Bombero> personal;
 
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "equipo_id")
+    //@JsonIgnore
     private List<Recurso> recursos;
 
     /**

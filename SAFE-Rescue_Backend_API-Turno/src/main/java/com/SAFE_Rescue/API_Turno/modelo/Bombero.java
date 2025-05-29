@@ -18,12 +18,6 @@ public class Bombero {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(unique = true, length = 8, nullable = false)
-    private Long run;
-
-    @Column(length = 1, nullable = false)
-    private String dv;
-
     @Column(length = 50, nullable = false)
     private String nombre;
 
@@ -32,9 +26,6 @@ public class Bombero {
 
     @Column(name="a_materno",length = 50, nullable = false)
     private String aMaterno;
-
-    @Column(name="fecha_registro",nullable = false)
-    private Date fechaRegistro;
 
     @Column(unique = true, length = 9, nullable = false)
     private Long telefono;

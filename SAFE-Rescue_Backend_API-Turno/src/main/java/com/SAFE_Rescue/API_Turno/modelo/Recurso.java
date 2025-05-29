@@ -46,14 +46,4 @@ public class Recurso {
     @Column(unique = true, length = 9, nullable = false)
     private int cantidad;
 
-    /**
-     * Estado de disponibilidad del recurso
-     * true = Disponible para uso
-     * false = No disponible (en mantenimiento, agotado, etc.)
-     * Por defecto debería inicializarse como true (disponible)
-     */
-    @Column(nullable = false)
-    private boolean estado = true;
-
-
 }
