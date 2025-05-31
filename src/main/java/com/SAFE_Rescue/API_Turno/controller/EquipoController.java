@@ -51,9 +51,7 @@ public class EquipoController {
         }catch(NoSuchElementException e){
             return new ResponseEntity<String>("Equipo no encontrado", HttpStatus.NOT_FOUND);
         }
-
         return ResponseEntity.ok(equipo);
-
     }
 
     /**

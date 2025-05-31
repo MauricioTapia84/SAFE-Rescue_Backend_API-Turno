@@ -56,6 +56,6 @@ public class Vehiculo {
      * Estado actual del vehículo (true = activo/disponible, false = inactivo/no disponible).
      * Por defecto, debería ser true (activo) al crear un nuevo vehículo.
      */
-    @Column(nullable = false)
-    private boolean estado = true;
+    @Column(length = 50, nullable = false)
+    private String estado;
 }
