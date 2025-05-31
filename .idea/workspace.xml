@@ -5,13 +5,68 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4855b24e-83ed-47e9-b44b-d816b960441a" name="Changes" comment="Se realizan modificaciones, correccion de errores, se realizan pruebas, y se deja operativo el codigo">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Bombero.java" beforeDir="false" afterPath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Bombero.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Equipo.java" beforeDir="false" afterPath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Equipo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Recurso.java" beforeDir="false" afterPath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Recurso.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/service/EquipoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/service/EquipoService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/modelo/Equipo.class" beforeDir="false" afterPath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/modelo/Equipo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/service/EquipoService.class" beforeDir="false" afterPath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/service/EquipoService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/ApiAdministradorApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/controller/CompaniaController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/controller/EquipoController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/controller/TipoEquipoController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/controller/TurnoController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Bombero.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Compania.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Equipo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Recurso.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/modelo/TipoEquipo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Turno.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Ubicacion.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Vehiculo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/repository/BomberoRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/repository/CompaniaRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/repository/EquipoRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/repository/RecursoRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/repository/TipoEquipoRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/repository/TurnoRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/repository/UbicacionRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/repository/VehiculoRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/service/CompaniaService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/service/EquipoService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/service/TipoEquipoService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno/service/TurnoService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/src/test/java/com/SAFE_Rescue/API_Turno/ApiAdministradorApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/ApiAdministradorApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/controller/CompaniaController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/controller/EquipoController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/controller/TipoEquipoController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/controller/TurnoController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/modelo/Bombero.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/modelo/Compania.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/modelo/Equipo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/modelo/Recurso.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/modelo/TipoEquipo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/modelo/Turno.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/modelo/Ubicacion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/modelo/Vehiculo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/repository/BomberoRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/repository/CompaniaRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/repository/EquipoRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/repository/RecursoRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/repository/TipoEquipoRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/repository/TurnoRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/repository/UbicacionRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/repository/VehiculoRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/service/CompaniaService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/service/EquipoService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/service/TipoEquipoService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAFE-Rescue_Backend_API-Turno/target/classes/com/SAFE_Rescue/API_Turno/service/TurnoService.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +96,13 @@
     &quot;accountId&quot;: &quot;557f9f4e-f6c9-4433-9eb9-223babebf8d8&quot;
   }
 }</component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -50,17 +112,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.ApiAdministradorApplication.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/SSDD/Documents/GitHub/SAFE-Rescue_Backend_API-Turno&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.ApiAdministradorApplication.executor": "Run",
+    "Application.ApiTurnoApplication.executor": "Run",
+    "JUnit.ApiTurnoApplicationTests.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Mauricio/Documents/GitHub/desktop-tutorial/SAFE-Rescue_Backend_API-Turno"
   }
-}</component>
+}]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
