@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
  * y acceso a datos utilizando Spring Data JPA.
  */
 @Repository
-public interface VehiculoRepository extends JpaRepository<Vehiculo, Long> {
+public interface VehiculoRepository extends JpaRepository<Vehiculo, Integer> {
 }

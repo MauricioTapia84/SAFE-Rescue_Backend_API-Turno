@@ -12,6 +12,6 @@ import java.util.Optional;
  * y acceso a datos utilizando Spring Data JPA.
  */
 @Repository
-public interface TipoEquipoRepository extends JpaRepository<TipoEquipo, Long> {
+public interface TipoEquipoRepository extends JpaRepository<TipoEquipo, Integer> {
 
 }

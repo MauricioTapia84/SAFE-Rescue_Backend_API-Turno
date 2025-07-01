@@ -11,7 +11,7 @@ import java.util.List;
  * y acceso a datos utilizando Spring Data JPA.
  */
 @Repository
-public interface EquipoRepository extends JpaRepository<Equipo, Long> {
+public interface EquipoRepository extends JpaRepository<Equipo, Integer> {
 
 
 }

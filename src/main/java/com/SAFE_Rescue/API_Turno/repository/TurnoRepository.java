@@ -12,6 +12,6 @@ import java.util.List;
  * y acceso a datos utilizando Spring Data JPA.
  */
 @Repository
-public interface TurnoRepository extends JpaRepository<Turno, Long> {
+public interface TurnoRepository extends JpaRepository<Turno, Integer> {
 
 }

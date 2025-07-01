@@ -38,7 +38,7 @@ public class TurnoService {
      * @return El turno encontrado
      * @throws NoSuchElementException Si no se encuentra el turno
      */
-    public Turno findByID(long id) {
+    public Turno findByID(Integer id) {
         return turnoRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Turno con ID " + id + " no encontrado"));
     }
@@ -67,7 +67,7 @@ public class TurnoService {
      * @return Turno actualizado
      * @throws RuntimeException Si hay errores de validación o al actualizar
      */
-    public Turno update(Turno turno, long id) {
+    public Turno update(Turno turno, Integer id) {
         try {
             Turno antiguoTurno = turnoRepository.findById(id)
                     .orElseThrow(() -> new NoSuchElementException("Turno no encontrado"));
@@ -113,7 +113,7 @@ public class TurnoService {
      * @param id ID del turno a eliminar
      * @throws RuntimeException Si no se encuentra el turno o hay error al eliminar
      */
-    public void delete(long id) {
+    public void delete(Integer id) {
         try {
             if (!turnoRepository.existsById(id)) {
                 throw new NoSuchElementException("Turno no encontrado");

@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 /**
  * Controlador REST para gestionar operaciones relacionadas con turnos.
@@ -18,8 +21,8 @@ import java.util.NoSuchElementException;
 @RequestMapping("/api-turnos/v1/turnos")
 public class TurnoController {
 
-    // SERVICIOS INYECTADOS
-    @Autowired private TurnoService turnoService;
+    @Autowired
+    private TurnoService turnoService;
 
     // OPERACIONES CRUD BÁSICAS
 
@@ -30,9 +33,14 @@ public class TurnoController {
      *         o código de estado NO_CONTENT (204) si la lista está vacía.
      */
     @GetMapping
-    public ResponseEntity<List<Turno>> listar(){
+    @Operation(summary = "Obtener todos los turnos", description = "Devuelve una lista de todos los turnos existentes.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de turnos encontrada"),
+            @ApiResponse(responseCode = "204", description = "No hay turnos registrados")
+    })
+    public ResponseEntity<List<Turno>> listar() {
         List<Turno> turnos = turnoService.findAll();
-        if(turnos.isEmpty()){
+        if (turnos.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return ResponseEntity.ok(turnos);
@@ -47,17 +55,21 @@ public class TurnoController {
      *         o INTERNAL_SERVER_ERROR (500) si ocurre un error inesperado.
      */
     @PostMapping
+    @Operation(summary = "Crear nuevo turno", description = "Crea un nuevo turno en el sistema.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Turno creado con éxito"),
+            @ApiResponse(responseCode = "400", description = "Error de validación"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<String> agregarTurno(@RequestBody Turno turno) {
         try {
             turnoService.validarTurno(turno);
             Turno nuevoTurno = turnoService.save(turno);
             return ResponseEntity.status(HttpStatus.CREATED).body("Turno creado con éxito.");
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error interno del servidor.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor.");
         }
     }
 
@@ -69,11 +81,16 @@ public class TurnoController {
      *         o NOT_FOUND (404) si no se encuentra el turno.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<?> buscarTurno(@PathVariable long id) {
+    @Operation(summary = "Buscar turno por ID", description = "Devuelve un turno específico dado su ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Turno encontrado"),
+            @ApiResponse(responseCode = "404", description = "Turno no encontrado")
+    })
+    public ResponseEntity<?> buscarTurno(@PathVariable Integer id) {
         Turno turno;
         try {
             turno = turnoService.findByID(id);
-        } catch(NoSuchElementException e) {
+        } catch (NoSuchElementException e) {
             return new ResponseEntity<String>("Turno no encontrado", HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(turno);
@@ -90,19 +107,23 @@ public class TurnoController {
      *         o INTERNAL_SERVER_ERROR (500) si ocurre un error inesperado.
      */
     @PutMapping("/{id}")
-    public ResponseEntity<String> actualizarTurno(@PathVariable long id, @RequestBody Turno turno) {
+    @Operation(summary = "Actualizar turno", description = "Actualiza la información de un turno existente.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Turno actualizado con éxito"),
+            @ApiResponse(responseCode = "404", description = "Turno no encontrado"),
+            @ApiResponse(responseCode = "400", description = "Error de validación"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<String> actualizarTurno(@PathVariable Integer id, @RequestBody Turno turno) {
         try {
             Turno nuevoTurno = turnoService.update(turno, id);
             return ResponseEntity.ok("Actualizado con éxito");
         } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Turno no encontrado");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Turno no encontrado");
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error interno del servidor.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor.");
         }
     }
 
@@ -116,19 +137,23 @@ public class TurnoController {
      *         o INTERNAL_SERVER_ERROR (500) si ocurre un error inesperado.
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> eliminarTurno(@PathVariable long id) {
+    @Operation(summary = "Eliminar turno", description = "Elimina un turno del sistema dado su ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Turno eliminado con éxito"),
+            @ApiResponse(responseCode = "404", description = "Turno no encontrado"),
+            @ApiResponse(responseCode = "400", description = "Error en la operación"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<String> eliminarTurno(@PathVariable Integer id) {
         try {
             turnoService.delete(id);
             return ResponseEntity.ok("Turno eliminado con éxito.");
         } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Turno no encontrado");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Turno no encontrado");
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error interno del servidor.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor.");
         }
     }
 }

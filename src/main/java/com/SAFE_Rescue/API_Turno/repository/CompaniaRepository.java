@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
  * y acceso a datos utilizando Spring Data JPA.
  */
 @Repository
-public interface CompaniaRepository extends JpaRepository<Compania, Long> {
+public interface CompaniaRepository extends JpaRepository<Compania, Integer> {
 
 }

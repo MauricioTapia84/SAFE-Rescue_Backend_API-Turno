@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 /**
  * Controlador REST para la gestión de equipos de emergencia.
@@ -18,8 +21,8 @@ import java.util.NoSuchElementException;
 @RequestMapping("/api-turnos/v1/equipos")
 public class EquipoController {
 
-    // SERVICIOS INYECTADOS
-    @Autowired private EquipoService equipoService;
+    @Autowired
+    private EquipoService equipoService;
 
     // OPERACIONES CRUD BÁSICAS
 
@@ -28,10 +31,14 @@ public class EquipoController {
      * @return ResponseEntity con lista de equipos o estado NO_CONTENT si no hay registros
      */
     @GetMapping
-    public ResponseEntity<List<Equipo>> listar(){
-
+    @Operation(summary = "Obtener todos los equipos", description = "Devuelve una lista de todos los equipos registrados.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de equipos encontrada"),
+            @ApiResponse(responseCode = "204", description = "No hay equipos registrados")
+    })
+    public ResponseEntity<List<Equipo>> listar() {
         List<Equipo> equipos = equipoService.findAll();
-        if(equipos.isEmpty()){
+        if (equipos.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return ResponseEntity.ok(equipos);
@@ -43,12 +50,16 @@ public class EquipoController {
      * @return ResponseEntity con el equipo encontrado o mensaje de error
      */
     @GetMapping("/{id}")
-    public ResponseEntity<?> buscarEquipo(@PathVariable long id) {
+    @Operation(summary = "Buscar equipo por ID", description = "Devuelve un equipo específico dada su ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Equipo encontrado"),
+            @ApiResponse(responseCode = "404", description = "Equipo no encontrado")
+    })
+    public ResponseEntity<?> buscarEquipo(@PathVariable Integer id) {
         Equipo equipo;
-
         try {
             equipo = equipoService.findByID(id);
-        }catch(NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             return new ResponseEntity<String>("Equipo no encontrado", HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(equipo);
@@ -60,6 +71,12 @@ public class EquipoController {
      * @return ResponseEntity con mensaje de confirmación o error
      */
     @PostMapping
+    @Operation(summary = "Crear nuevo equipo", description = "Crea un nuevo equipo en el sistema.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Equipo creado con éxito"),
+            @ApiResponse(responseCode = "400", description = "Error de validación"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<String> agregarEquipo(@RequestBody Equipo equipo) {
         try {
             equipoService.save(equipo);
@@ -78,7 +95,14 @@ public class EquipoController {
      * @return ResponseEntity con mensaje de confirmación o error
      */
     @PutMapping("/{id}")
-    public ResponseEntity<String> actualizarEquipo(@PathVariable long id, @RequestBody Equipo equipo) {
+    @Operation(summary = "Actualizar equipo", description = "Actualiza la información de un equipo existente.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Equipo actualizado con éxito"),
+            @ApiResponse(responseCode = "404", description = "Equipo no encontrado"),
+            @ApiResponse(responseCode = "400", description = "Error de validación"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<String> actualizarEquipo(@PathVariable Integer id, @RequestBody Equipo equipo) {
         try {
             Equipo nuevoEquipo = equipoService.update(equipo, id);
             return ResponseEntity.ok("Actualizado con éxito");
@@ -100,13 +124,20 @@ public class EquipoController {
      * @return ResponseEntity con mensaje de confirmación
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> eliminarEquipo(@PathVariable long id) {
+    @Operation(summary = "Eliminar equipo", description = "Elimina un equipo del sistema dado su ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Equipo eliminado con éxito"),
+            @ApiResponse(responseCode = "404", description = "Equipo no encontrado"),
+            @ApiResponse(responseCode = "400", description = "Error de validación"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<String> eliminarEquipo(@PathVariable Integer id) {
         try {
             equipoService.delete(id);
             return ResponseEntity.ok("Equipo eliminado con éxito.");
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Equipo no encontrada");
+                    .body("Equipo no encontrado");
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(e.getMessage());
@@ -115,7 +146,6 @@ public class EquipoController {
                     .body("Error interno del servidor.");
         }
     }
-
 
     // GESTIÓN DE RELACIONES
 
@@ -126,6 +156,12 @@ public class EquipoController {
      * @return ResponseEntity con mensaje de confirmación o error
      */
     @PostMapping("/{equipoId}/asignar-compania/{companiaId}")
+    @Operation(summary = "Asignar compañía a equipo", description = "Asigna una compañía a un equipo específico.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Compañía asignada al equipo exitosamente"),
+            @ApiResponse(responseCode = "404", description = "Equipo o compañía no encontrada"),
+            @ApiResponse(responseCode = "400", description = "Error de validación")
+    })
     public ResponseEntity<String> asignarCompania(@PathVariable int equipoId, @PathVariable int companiaId) {
         try {
             equipoService.asignarCompania(equipoId, companiaId);
@@ -142,6 +178,12 @@ public class EquipoController {
      * @return ResponseEntity con mensaje de confirmación o error
      */
     @PostMapping("/{equipoId}/asignar-turno/{turnoId}")
+    @Operation(summary = "Asignar turno a equipo", description = "Asigna un turno a un equipo específico.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Turno asignado al equipo exitosamente"),
+            @ApiResponse(responseCode = "404", description = "Equipo o turno no encontrado"),
+            @ApiResponse(responseCode = "400", description = "Error de validación")
+    })
     public ResponseEntity<String> asignarTurno(@PathVariable int equipoId, @PathVariable int turnoId) {
         try {
             equipoService.asignarTurno(equipoId, turnoId);
@@ -158,6 +200,12 @@ public class EquipoController {
      * @return ResponseEntity con mensaje de confirmación o error
      */
     @PostMapping("/{equipoId}/asignar-tipo-equipo/{tipoEquipoId}")
+    @Operation(summary = "Asignar tipo de equipo a equipo", description = "Asigna un tipo de equipo a un equipo específico.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Tipo de equipo asignado al equipo exitosamente"),
+            @ApiResponse(responseCode = "404", description = "Equipo o tipo de equipo no encontrado"),
+            @ApiResponse(responseCode = "400", description = "Error de validación")
+    })
     public ResponseEntity<String> asignarTipoEquipo(@PathVariable int equipoId, @PathVariable int tipoEquipoId) {
         try {
             equipoService.asignarTipoEquipo(equipoId, tipoEquipoId);
@@ -174,7 +222,13 @@ public class EquipoController {
      * @return ResponseEntity con mensaje de confirmación o error
      */
     @PostMapping("/{equipoId}/asignar-personal/{bomberosId}")
-    public ResponseEntity<String> asignaPersonal(@PathVariable int equipoId, @PathVariable List<Long> bomberosId) {
+    @Operation(summary = "Asignar bomberos a equipo", description = "Asigna una lista de bomberos a un equipo específico.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de bomberos asignada al equipo exitosamente"),
+            @ApiResponse(responseCode = "404", description = "Equipo no encontrado"),
+            @ApiResponse(responseCode = "400", description = "Error de validación")
+    })
+    public ResponseEntity<String> asignaPersonal(@PathVariable Integer equipoId, @PathVariable List<Integer> bomberosId) {
         try {
             equipoService.asignarListaBomberos(equipoId, bomberosId);
             return ResponseEntity.ok("Lista bomberos asignada al Equipo exitosamente");
@@ -182,5 +236,4 @@ public class EquipoController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
-
 }

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
  * y acceso a datos utilizando Spring Data JPA.
  */
 @Repository
-public interface BomberoRepository extends JpaRepository<Bombero, Long>{
+public interface BomberoRepository extends JpaRepository<Bombero, Integer>{
 
 
 }

@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 /**
  * Controlador REST para la gestión de compañías de bomberos.
@@ -18,8 +21,8 @@ import java.util.NoSuchElementException;
 @RequestMapping("/api-turnos/v1/companias")
 public class CompaniaController {
 
-    // SERVICIOS INYECTADOS
-    @Autowired private CompaniaService companiaService;
+    @Autowired
+    private CompaniaService companiaService;
 
     // OPERACIONES CRUD BÁSICAS
 
@@ -28,10 +31,14 @@ public class CompaniaController {
      * @return ResponseEntity con lista de compañías o estado NO_CONTENT si no hay registros
      */
     @GetMapping
-    public ResponseEntity<List<Compania>> listarCompania(){
-
+    @Operation(summary = "Obtener todas las compañías", description = "Devuelve una lista de todas las compañías registradas.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de compañías encontrada"),
+            @ApiResponse(responseCode = "204", description = "No hay compañías registradas")
+    })
+    public ResponseEntity<List<Compania>> listarCompania() {
         List<Compania> compania = companiaService.findAll();
-        if(compania.isEmpty()){
+        if (compania.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return ResponseEntity.ok(compania);
@@ -43,12 +50,16 @@ public class CompaniaController {
      * @return ResponseEntity con la compañía encontrada o mensaje de error
      */
     @GetMapping("/{id}")
+    @Operation(summary = "Buscar compañía por ID", description = "Devuelve una compañía específica dada su ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Compañía encontrada"),
+            @ApiResponse(responseCode = "404", description = "Compañía no encontrada")
+    })
     public ResponseEntity<?> buscarCompania(@PathVariable int id) {
         Compania compania;
-
         try {
             compania = companiaService.findByID(id);
-        }catch(NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             return new ResponseEntity<String>("Compania no encontrada", HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(compania);
@@ -60,6 +71,12 @@ public class CompaniaController {
      * @return ResponseEntity con mensaje de confirmación o error
      */
     @PostMapping
+    @Operation(summary = "Crear nueva compañía", description = "Crea una nueva compañía en el sistema.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Compañía creada con éxito"),
+            @ApiResponse(responseCode = "400", description = "Error de validación"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<String> agregarCompania(@RequestBody Compania compania) {
         try {
             companiaService.save(compania);
@@ -78,7 +95,14 @@ public class CompaniaController {
      * @return ResponseEntity con mensaje de confirmación o error
      */
     @PutMapping("/{id}")
-    public ResponseEntity<String> actualizarCompania(@PathVariable long id, @RequestBody Compania compania) {
+    @Operation(summary = "Actualizar compañía", description = "Actualiza la información de una compañía existente.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Compañía actualizada con éxito"),
+            @ApiResponse(responseCode = "404", description = "Compañía no encontrada"),
+            @ApiResponse(responseCode = "400", description = "Error de validación"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<String> actualizarCompania(@PathVariable Integer id, @RequestBody Compania compania) {
         try {
             Compania nuevoCompania = companiaService.update(compania, id);
             return ResponseEntity.ok("Actualizado con éxito");
@@ -100,7 +124,14 @@ public class CompaniaController {
      * @return ResponseEntity con mensaje de confirmación
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> eliminarCompania(@PathVariable long id) {
+    @Operation(summary = "Eliminar compañía", description = "Elimina una compañía del sistema dado su ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Compañía eliminada con éxito"),
+            @ApiResponse(responseCode = "404", description = "Compañía no encontrada"),
+            @ApiResponse(responseCode = "400", description = "Error de validación"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<String> eliminarCompania(@PathVariable Integer id) {
         try {
             companiaService.delete(id);
             return ResponseEntity.ok("Compania eliminada con éxito.");
@@ -119,13 +150,19 @@ public class CompaniaController {
     // GESTIÓN DE RELACIONES
 
     /**
-     * Asigna una ubicacion a una compania.
-     * @param companiaId ID de la Compania
-     * @param ubicacionId ID de la Ubicaion
+     * Asigna una ubicación a una compañía.
+     * @param companiaId ID de la Compañía
+     * @param ubicacionId ID de la Ubicación
      * @return ResponseEntity con mensaje de confirmación o error
      */
     @PostMapping("/{companiaId}/asignar-ubicacion/{ubicacionId}")
-    public ResponseEntity<String> asignarUbicacion(@PathVariable Long companiaId, @PathVariable Long ubicacionId) {
+    @Operation(summary = "Asignar ubicación a compañía", description = "Asigna una ubicación a una compañía específica.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ubicación asignada a la compañía exitosamente"),
+            @ApiResponse(responseCode = "404", description = "Compañía o ubicación no encontrada"),
+            @ApiResponse(responseCode = "400", description = "Error de validación")
+    })
+    public ResponseEntity<String> asignarUbicacion(@PathVariable Integer companiaId, @PathVariable Integer ubicacionId) {
         try {
             companiaService.asignarUbicacion(companiaId, ubicacionId);
             return ResponseEntity.ok("Ubicacion asignada a la Compania exitosamente");

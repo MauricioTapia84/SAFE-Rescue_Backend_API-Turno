@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Entidad que representa los diferentes tipos de equipos de bomberos en el sistema.
@@ -29,7 +30,8 @@ public class TipoEquipo {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Schema(description = "Identificador único del tipo de equipo", example = "1")
+    private Integer id;
 
     /**
      * Nombre descriptivo del tipo de equipo.
@@ -45,6 +47,7 @@ public class TipoEquipo {
      * <p>Ejemplos: "Equipo de Rescate", "Equipo de Primeros Auxilios", "Equipo de Materiales Peligrosos"</p>
      */
     @Column(name = "nombre_tipo", length = 50, nullable = false)
+    @Schema(description = "Nombre del tipo de equipo", example = "Equipo de Rescate", required = true, maxLength = 50)
     private String nombre;
 
 }

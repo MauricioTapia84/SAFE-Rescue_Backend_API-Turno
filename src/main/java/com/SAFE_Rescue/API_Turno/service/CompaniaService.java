@@ -42,7 +42,7 @@ public class CompaniaService {
      * @return La compañía encontrada
      * @throws NoSuchElementException Si no se encuentra la compañía
      */
-    public Compania findByID(long id) {
+    public Compania findByID(Integer id) {
         return companiaRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Compañía no encontrada con ID: " + id));
     }
@@ -75,7 +75,7 @@ public class CompaniaService {
      * @throws NoSuchElementException Si no se encuentra la compañía con el ID especificado
      * @throws IllegalArgumentException Si los datos no pasan las validaciones
      */
-    public Compania update(Compania compania, long id) {
+    public Compania update(Compania compania, Integer id) {
         Compania antiguaCompania = companiaRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Compañía no encontrada con ID: " + id));
 
@@ -97,7 +97,7 @@ public class CompaniaService {
      * @param id ID de la compañía a eliminar
      * @throws NoSuchElementException Si no se encuentra la compañía
      */
-    public void delete(long id) {
+    public void delete(Integer id) {
         if (!companiaRepository.existsById(id)) {
             throw new NoSuchElementException("Compañía no encontrada con ID: " + id);
         }
@@ -112,7 +112,7 @@ public class CompaniaService {
      * @param compania Compañía a validar
      * @throws IllegalArgumentException Si la compañía no cumple con las reglas de validación
      */
-    private void validarCompania(Compania compania) {
+    public void validarCompania(Compania compania) {
         if (compania.getNombre() == null || compania.getNombre().trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre de la compañía es requerido");
         }
@@ -178,7 +178,7 @@ public class CompaniaService {
      * @throws NoSuchElementException Si no se encuentra la compañía o la ubicación
      * @throws IllegalArgumentException Si la ubicación no pasa las validaciones
      */
-    public void asignarUbicacion(Long companiaId, Long ubicacionId) {
+    public void asignarUbicacion(Integer companiaId, Integer ubicacionId) {
         Compania compania = findByID(companiaId);
         Ubicacion ubicacion = obtenerUbicacion(ubicacionId);
         validarUbicacion(ubicacion);
@@ -192,7 +192,7 @@ public class CompaniaService {
      * @return Ubicación encontrada
      * @throws RuntimeException Si no se encuentra la ubicación con el ID especificado
      */
-    public Ubicacion obtenerUbicacion(Long ubicacionId) {
+    public Ubicacion obtenerUbicacion(Integer ubicacionId) {
         return ubicacionRepository.findById(ubicacionId)
                 .orElseThrow(() -> new RuntimeException("Ubicación no encontrada con ID: " + ubicacionId));
     }

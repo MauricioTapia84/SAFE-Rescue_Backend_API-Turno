@@ -52,7 +52,7 @@ public class EquipoService {
      * @return Equipo encontrado
      * @throws NoSuchElementException Si no se encuentra el equipo
      */
-    public Equipo findByID(long id) {
+    public Equipo findByID(Integer id) {
         return equipoRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("No se encontró equipo con ID: " + id));
     }
@@ -97,7 +97,7 @@ public class EquipoService {
      * @throws NoSuchElementException Si no se encuentra el equipo a actualizar
      * @throws RuntimeException Si ocurre algún error durante la actualización
      */
-    public Equipo update(Equipo equipo, long id) {
+    public Equipo update(Equipo equipo, Integer id) {
         if (equipo == null) {
             throw new IllegalArgumentException("El equipo no puede ser nulo");
         }
@@ -136,7 +136,7 @@ public class EquipoService {
      * @param id Identificador del equipo a eliminar
      * @throws NoSuchElementException Si no se encuentra el equipo
      */
-    public void delete(long id) {
+    public void delete(Integer id) {
         if (!equipoRepository.existsById(id)) {
             throw new NoSuchElementException("No se encontró equipo con ID: " + id);
         }
@@ -150,7 +150,7 @@ public class EquipoService {
      * @param equipoId ID del equipo
      * @param companiaId ID de la compañía
      */
-    public void asignarCompania(long equipoId, long companiaId) {
+    public void asignarCompania(Integer equipoId, Integer companiaId) {
         Equipo equipo = equipoRepository.findById(equipoId)
             .orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
         Compania compania = companiaRepository.findById(companiaId)
@@ -165,7 +165,7 @@ public class EquipoService {
      * @param equipoId ID del equipo
      * @param tipoEquipoId ID del tipo de equipo
      */
-    public void asignarTipoEquipo(long equipoId, long tipoEquipoId) {
+    public void asignarTipoEquipo(Integer equipoId, Integer tipoEquipoId) {
         Equipo equipo = equipoRepository.findById(equipoId)
                 .orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
         TipoEquipo tipoEquipo  = tipoEquipoRepository.findById(equipoId)
@@ -179,7 +179,7 @@ public class EquipoService {
      * @param equipoId ID del equipo
      * @param turnoId ID del turno
      */
-    public void asignarTurno(long equipoId, long turnoId) {
+    public void asignarTurno(Integer equipoId, Integer turnoId) {
         Equipo equipo = equipoRepository.findById(equipoId)
                 .orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
         Turno turno = turnoRepository.findById(equipoId)
@@ -194,7 +194,7 @@ public class EquipoService {
      * @param bomberosIds Lista de IDs de bomberos
      * @throws IllegalArgumentException Si la lista es nula o vacía
      */
-    public void asignarListaBomberos(long equipoId, List<Long> bomberosIds) {
+    public void asignarListaBomberos(Integer equipoId, List<Integer> bomberosIds) {
         if (bomberosIds == null || bomberosIds.isEmpty()) {
             throw new IllegalArgumentException("La lista de bomberos no puede estar vacía");
         }
@@ -211,7 +211,7 @@ public class EquipoService {
      */
     private void asignarBomberosAlEquipo(Equipo equipo) {
         if (equipo.getPersonal() != null && !equipo.getPersonal().isEmpty()) {
-            List<Long> bomberosIds = extraerIdsDeBomberos(equipo.getPersonal());
+            List<Integer> bomberosIds = extraerIdsDeBomberos(equipo.getPersonal());
             equipo.setPersonal(obtenerPersonal(bomberosIds));
         }
     }
@@ -222,7 +222,7 @@ public class EquipoService {
      */
     private void asignarRecursosAlEquipo(Equipo equipo) {
         if (equipo.getRecursos() != null && !equipo.getRecursos().isEmpty()) {
-            List<Long> recursosIds = extraerIdsRecursos(equipo.getRecursos());
+            List<Integer> recursosIds = extraerIdsRecursos(equipo.getRecursos());
             equipo.setRecursos(obtenerRecursos(recursosIds));
         }
     }
@@ -233,7 +233,7 @@ public class EquipoService {
      */
     private void asignarVehiculosAlEquipo(Equipo equipo) {
         if (equipo.getVehiculos() != null && !equipo.getVehiculos().isEmpty()) {
-            List<Long> vehiculosIds = extraerIdsVehiculos(equipo.getVehiculos());
+            List<Integer> vehiculosIds = extraerIdsVehiculos(equipo.getVehiculos());
             equipo.setVehiculos(obtenerVehiculos(vehiculosIds));
         }
     }
@@ -254,7 +254,7 @@ public class EquipoService {
      * @throws IllegalArgumentException Si alguna validación falla, con mensaje descriptivo del error
      * @throws NullPointerException Si el parámetro equipo es nulo
      */
-    private void validarEquipo(Equipo equipo) {
+    public void validarEquipo(Equipo equipo) {
 
         if (equipo.getNombre() != null) {
             if (equipo.getNombre().length() > 50) {
@@ -313,14 +313,14 @@ public class EquipoService {
      * @return Lista con información de bomberos
      * @throws RuntimeException Si hay error en la comunicación
      */
-    private List<Bombero> obtenerPersonal(List<Long> bomberosIds) {
+    private List<Bombero> obtenerPersonal(List<Integer> bomberosIds) {
         if (bomberosIds == null || bomberosIds.isEmpty()) {
             return Collections.emptyList();
         }
 
         try {
             List<Bombero> bomberos = new ArrayList<>();
-            for (Long id : bomberosIds) {
+            for (Integer id : bomberosIds) {
                 Bombero bombero = bomberoRepository.findById(id)
                         .orElseThrow(() -> new RuntimeException("Bombero no encontrado con ID: " + id));
                 bomberos.add(bombero);
@@ -337,7 +337,7 @@ public class EquipoService {
      * @return Lista con información de vehículos
      * @throws RuntimeException Si hay error en la comunicación
      */
-    private List<Vehiculo> obtenerVehiculos(List<Long> vehiculosIds) {
+    private List<Vehiculo> obtenerVehiculos(List<Integer> vehiculosIds) {
         if (vehiculosIds == null || vehiculosIds.isEmpty()) {
             return Collections.emptyList();
         }
@@ -362,7 +362,7 @@ public class EquipoService {
      * @return Lista con información de recursos
      * @throws RuntimeException Si hay error en la comunicación
      */
-    private List<Recurso> obtenerRecursos(List<Long> recursosIds) {
+    private List<Recurso> obtenerRecursos(List<Integer> recursosIds) {
         if (recursosIds == null || recursosIds.isEmpty()) {
             return Collections.emptyList();
         }
@@ -386,14 +386,14 @@ public class EquipoService {
      * @return Lista con información de bomberos
      * @throws RuntimeException Si hay error en la comunicación
      */
-    private List<Long> extraerIdsDeBomberos(List<Bombero> bomberos) {
+    private List<Integer> extraerIdsDeBomberos(List<Bombero> bomberos) {
         if (bomberos == null || bomberos.isEmpty()) {
             return Collections.emptyList();
         }
 
-        List<Long> ids = new ArrayList<>();
+        List<Integer> ids = new ArrayList<>();
         for (Bombero bombero : bomberos) {
-            ids.add(Long.valueOf(bombero.getId()));
+            ids.add(bombero.getId());
         }
         return ids;
     }
@@ -404,14 +404,14 @@ public class EquipoService {
      * @return Lista con información de vehiculos
      * @throws RuntimeException Si hay error en la comunicación
      */
-    private List<Long> extraerIdsVehiculos(List<Vehiculo> vehiculos) {
+    private List<Integer> extraerIdsVehiculos(List<Vehiculo> vehiculos) {
         if (vehiculos == null || vehiculos.isEmpty()) {
             return Collections.emptyList();
         }
 
-        List<Long> ids = new ArrayList<>();
+        List<Integer> ids = new ArrayList<>();
         for (Vehiculo vehiculo : vehiculos) {
-            ids.add(Long.valueOf(vehiculo.getId()));
+            ids.add(Math.toIntExact(vehiculo.getId()));
         }
         return ids;
     }
@@ -422,14 +422,14 @@ public class EquipoService {
      * @return Lista con información de recursos
      * @throws RuntimeException Si hay error en la comunicación
      */
-    private List<Long> extraerIdsRecursos(List<Recurso> recursos) {
+    private List<Integer> extraerIdsRecursos(List<Recurso> recursos) {
         if (recursos == null || recursos.isEmpty()) {
             return Collections.emptyList();
         }
 
-        List<Long> ids = new ArrayList<>();
+        List<Integer> ids = new ArrayList<>();
         for (Recurso recurso: recursos) {
-            ids.add(Long.valueOf(recurso.getId()));
+            ids.add(recurso.getId());
         }
         return ids;
     }

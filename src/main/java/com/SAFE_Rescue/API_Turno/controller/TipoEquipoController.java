@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 /**
  * Controlador REST para la gestión de tipos de equipo de emergencia.
@@ -18,8 +21,8 @@ import java.util.NoSuchElementException;
 @RequestMapping("/api-turnos/v1/tipos-equipo")
 public class TipoEquipoController {
 
-    // SERVICIOS INYECTADOS
-    @Autowired private TipoEquipoService tipoEquipoService;
+    @Autowired
+    private TipoEquipoService tipoEquipoService;
 
     // OPERACIONES CRUD BÁSICAS
 
@@ -28,9 +31,14 @@ public class TipoEquipoController {
      * @return ResponseEntity con lista de tipos de equipo o estado NO_CONTENT si no hay registros
      */
     @GetMapping
+    @Operation(summary = "Obtener todos los tipos de equipo", description = "Devuelve una lista de todos los tipos de equipo registrados.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de tipos de equipo encontrada"),
+            @ApiResponse(responseCode = "204", description = "No hay tipos de equipo registrados")
+    })
     public ResponseEntity<List<TipoEquipo>> listarTiposEquipo() {
         List<TipoEquipo> tipoEquipo = tipoEquipoService.findAll();
-        if(tipoEquipo.isEmpty()) {
+        if (tipoEquipo.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return ResponseEntity.ok(tipoEquipo);
@@ -42,11 +50,16 @@ public class TipoEquipoController {
      * @return ResponseEntity con el tipo de equipo encontrado o mensaje de error
      */
     @GetMapping("/{id}")
-    public ResponseEntity<?> buscarTipoEquipo(@PathVariable int id) {
+    @Operation(summary = "Buscar tipo de equipo por ID", description = "Devuelve un tipo de equipo específico dada su ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Tipo de equipo encontrado"),
+            @ApiResponse(responseCode = "404", description = "Tipo de equipo no encontrado")
+    })
+    public ResponseEntity<?> buscarTipoEquipo(@PathVariable Integer id) {
         TipoEquipo tipoEquipo;
         try {
-            tipoEquipo = tipoEquipoService.findByID(id);
-        } catch(NoSuchElementException e) {
+            tipoEquipo = tipoEquipoService.findById(id);
+        } catch (NoSuchElementException e) {
             return new ResponseEntity<String>("Tipo Equipo no encontrado", HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(tipoEquipo);
@@ -58,6 +71,12 @@ public class TipoEquipoController {
      * @return ResponseEntity con mensaje de confirmación o error
      */
     @PostMapping
+    @Operation(summary = "Crear nuevo tipo de equipo", description = "Crea un nuevo tipo de equipo en el sistema.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Tipo de equipo creado con éxito"),
+            @ApiResponse(responseCode = "400", description = "Error de validación"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<String> agregarTipoEquipo(@RequestBody TipoEquipo tipoEquipo) {
         try {
             tipoEquipoService.save(tipoEquipo);
@@ -76,7 +95,14 @@ public class TipoEquipoController {
      * @return ResponseEntity con mensaje de confirmación o error
      */
     @PutMapping("/{id}")
-    public ResponseEntity<String> actualizarTipoEquipo(@PathVariable long id, @RequestBody TipoEquipo tipoEquipo) {
+    @Operation(summary = "Actualizar tipo de equipo", description = "Actualiza la información de un tipo de equipo existente.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Tipo de equipo actualizado con éxito"),
+            @ApiResponse(responseCode = "404", description = "Tipo de equipo no encontrado"),
+            @ApiResponse(responseCode = "400", description = "Error de validación"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<String> actualizarTipoEquipo(@PathVariable Integer id, @RequestBody TipoEquipo tipoEquipo) {
         try {
             TipoEquipo nuevoTipoEquipo = tipoEquipoService.update(tipoEquipo, id);
             return ResponseEntity.ok("Actualizado con éxito");
@@ -98,13 +124,20 @@ public class TipoEquipoController {
      * @return ResponseEntity con mensaje de confirmación
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> eliminarTipoEquipo(@PathVariable long id) {
+    @Operation(summary = "Eliminar tipo de equipo", description = "Elimina un tipo de equipo del sistema dado su ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Tipo de equipo eliminado con éxito"),
+            @ApiResponse(responseCode = "404", description = "Tipo de equipo no encontrado"),
+            @ApiResponse(responseCode = "400", description = "Error de validación"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<String> eliminarTipoEquipo(@PathVariable Integer id) {
         try {
             tipoEquipoService.delete(id);
             return ResponseEntity.ok("Tipo Equipo eliminado con éxito.");
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Tipo Equipo no encontrada");
+                    .body("Tipo Equipo no encontrado");
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(e.getMessage());

@@ -34,7 +34,7 @@ public class TipoEquipoService {
      * @return El tipo de equipo encontrado
      * @throws NoSuchElementException Si no se encuentra el tipo de equipo
      */
-    public TipoEquipo findByID(long id) {
+    public TipoEquipo findById(Integer id) {
         return tipoEquipoRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Tipo de equipo no encontrado con ID: " + id));
     }
@@ -64,14 +64,12 @@ public class TipoEquipoService {
      * @throws NoSuchElementException Si no se encuentra el tipo de equipo
      * @throws IllegalArgumentException Si los datos no pasan las validaciones
      */
-    public TipoEquipo update(TipoEquipo tipoEquipo, long id) {
+    public TipoEquipo update(TipoEquipo tipoEquipo, Integer id) {
         TipoEquipo tipoExistente = tipoEquipoRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Tipo de equipo no encontrado con ID: " + id));
 
-        if (tipoEquipo.getNombre() != null) {
-            validarNombreTipoEquipo(tipoEquipo.getNombre());
-            tipoExistente.setNombre(tipoEquipo.getNombre());
-        }
+        validarTipoEquipo(tipoEquipo);
+        tipoExistente.setNombre(tipoEquipo.getNombre());
 
         return tipoEquipoRepository.save(tipoExistente);
     }
@@ -81,7 +79,7 @@ public class TipoEquipoService {
      * @param id ID del tipo de equipo a eliminar
      * @throws NoSuchElementException Si no se encuentra el tipo de equipo
      */
-    public void delete(long id) {
+    public void delete(Integer id) {
         if (!tipoEquipoRepository.existsById(id)) {
             throw new NoSuchElementException("Tipo de equipo no encontrado con ID: " + id);
         }
@@ -93,23 +91,14 @@ public class TipoEquipoService {
      * @param tipoEquipo Tipo de equipo a validar
      * @throws IllegalArgumentException Si el tipo de equipo no cumple con las reglas de validación
      */
-    private void validarTipoEquipo(TipoEquipo tipoEquipo) {
+    public void validarTipoEquipo(TipoEquipo tipoEquipo) {
         if (tipoEquipo.getNombre() == null || tipoEquipo.getNombre().trim().isEmpty()) {
-            throw new IllegalArgumentException("El nombre del Tipo Equipoa es requerido");
+            throw new IllegalArgumentException("El nombre del Tipo Equipo es requerido");
         }
         if (tipoEquipo.getNombre().length() > 50) {
             throw new IllegalArgumentException("El nombre no puede exceder los 50 caracteres");
         }
     }
 
-    /**
-     * Valida el nombre de un tipo de equipo.
-     * @param nombre Nombre a validar
-     * @throws IllegalArgumentException Si el nombre excede el límite de caracteres
-     */
-    private void validarNombreTipoEquipo(String nombre) {
-        if (nombre.length() > 50) {
-            throw new IllegalArgumentException("El nombre no puede exceder los 50 caracteres");
-        }
-    }
+
 }

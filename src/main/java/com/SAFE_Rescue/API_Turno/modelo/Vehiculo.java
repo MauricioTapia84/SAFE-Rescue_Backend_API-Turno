@@ -4,17 +4,17 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * Entidad que representa un Vehiculo en el sistema.
- * Contiene información sobre la composición y estado del vehiculo
+ * Entidad que representa un vehículo en el sistema.
+ * Contiene información sobre la composición y estado del vehículo.
  */
 @Entity
 @Table(name = "vehiculo")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data// Lombok: Genera constructor con todos los campos
+@Data // Lombok: Genera constructor con todos los campos
 public class Vehiculo {
 
     /**
@@ -22,6 +22,7 @@ public class Vehiculo {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "ID único del vehículo", example = "1")
     private int id;
 
     /**
@@ -29,13 +30,15 @@ public class Vehiculo {
      * Debe ser un valor no nulo y con una longitud razonable.
      */
     @Column(length = 50, nullable = false)
+    @Schema(description = "Marca o fabricante del vehículo", example = "Toyota", required = true, maxLength = 50)
     private String marca;
 
     /**
-     * Modelo
+     * Modelo del vehículo.
      * Debe ser un valor no nulo y con una longitud razonable.
      */
     @Column(length = 50, nullable = false)
+    @Schema(description = "Modelo del vehículo", example = "Hilux", required = true, maxLength = 50)
     private String modelo;
 
     /**
@@ -43,19 +46,22 @@ public class Vehiculo {
      * Identificador único legal del vehículo.
      */
     @Column(length = 6, nullable = false)
+    @Schema(description = "Patente o matrícula del vehículo", example = "AB123C", required = true, maxLength = 6)
     private String patente;
 
     /**
      * Nombre del conductor asignado al vehículo.
      * Puede ser null si el vehículo no tiene conductor asignado.
      */
-    @Column(length = 50, nullable = false)
+    @Column(length = 50, nullable = true)
+    @Schema(description = "Nombre del conductor asignado al vehículo", example = "Juan Pérez", maxLength = 50)
     private String conductor;
 
     /**
      * Estado actual del vehículo (true = activo/disponible, false = inactivo/no disponible).
      * Por defecto, debería ser true (activo) al crear un nuevo vehículo.
      */
-    @Column(length = 50, nullable = false)
-    private String estado;
+    @Column(nullable = false)
+    @Schema(description = "Estado actual del vehículo", example = "true", required = true)
+    private boolean estado; // Cambiado a boolean para reflejar el estado correctamente
 }
