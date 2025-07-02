@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -63,7 +65,6 @@ public class TurnoController {
     })
     public ResponseEntity<String> agregarTurno(@RequestBody Turno turno) {
         try {
-            turnoService.validarTurno(turno);
             Turno nuevoTurno = turnoService.save(turno);
             return ResponseEntity.status(HttpStatus.CREATED).body("Turno creado con éxito.");
         } catch (RuntimeException e) {
@@ -114,7 +115,7 @@ public class TurnoController {
             @ApiResponse(responseCode = "400", description = "Error de validación"),
             @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
-    public ResponseEntity<String> actualizarTurno(@PathVariable Integer id, @RequestBody Turno turno) {
+    public ResponseEntity<String> actualizarTurno1(@PathVariable Integer id, @RequestBody Turno turno) {
         try {
             Turno nuevoTurno = turnoService.update(turno, id);
             return ResponseEntity.ok("Actualizado con éxito");

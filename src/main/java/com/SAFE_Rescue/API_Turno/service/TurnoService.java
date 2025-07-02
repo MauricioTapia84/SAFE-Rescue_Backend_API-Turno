@@ -103,8 +103,12 @@ public class TurnoService {
 
             return turnoRepository.save(antiguoTurno);
 
-        } catch (Exception e) {
-            throw new RuntimeException("Error al actualizar el Turno: " + e.getMessage());
+        }catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Error al actualizar el turno: " + e.getMessage());
+        } catch (NoSuchElementException  f) {
+            throw new NoSuchElementException("Error al actualizar el turno: " + f.getMessage());
+        } catch (Exception g) {
+            throw new RuntimeException("Error al actualizar el turno: " + g.getMessage());
         }
     }
 
@@ -119,8 +123,10 @@ public class TurnoService {
                 throw new NoSuchElementException("Turno no encontrado");
             }
             turnoRepository.deleteById(id);
-        } catch (Exception e) {
-            throw new RuntimeException("Error al eliminar Turno: " + e.getMessage());
+        } catch (NoSuchElementException e) {
+            throw new NoSuchElementException("Error al eliminar Turno: " + e.getMessage());
+        }catch (Exception f) {
+            throw new RuntimeException("Error al eliminar Turno: " + f.getMessage());
         }
     }
 
@@ -160,11 +166,17 @@ public class TurnoService {
      * @param turno Turno para calcular la duración
      * @return Duración en horas entre fechaHoraInicio y fechaHoraFin
      */
-    private long calcularDuracion(Turno turno) {
-        if (turno.getFechaHoraInicio() == null || turno.getFechaHoraFin() == null) {
-            throw new RuntimeException("Las fechas de inicio y fin son requeridas para calcular la duración");
+    private Integer calcularDuracion(Turno turno) {
+        if (turno == null) {
+            throw new IllegalArgumentException("El turno no puede ser nulo");
         }
-        return java.time.Duration.between(turno.getFechaHoraInicio(), turno.getFechaHoraFin()).toHours();
+        if (turno.getFechaHoraInicio() == null || turno.getFechaHoraFin() == null) {
+            throw new IllegalArgumentException("Las fechas de inicio y fin son requeridas para calcular la duración");
+        }
+        if (turno.getFechaHoraInicio().isAfter(turno.getFechaHoraFin())) {
+            throw new IllegalArgumentException("La fecha de inicio debe ser anterior a la fecha de fin");
+        }
+        return (int) java.time.Duration.between(turno.getFechaHoraInicio(), turno.getFechaHoraFin()).toHours();
     }
 
     /**

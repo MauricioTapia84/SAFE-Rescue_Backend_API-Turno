@@ -5,45 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4855b24e-83ed-47e9-b44b-d816b960441a" name="Changes" comment="Se realizan modificaciones, correccion de errores, se realizan pruebas, y se deja operativo el codigo">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/DataLoader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/config/SwaggerConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application-dev.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application-test.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/SAFE_Rescue/API_Turno/controller/CompaniaControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/SAFE_Rescue/API_Turno/controller/EquipoControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/SAFE_Rescue/API_Turno/controller/TipoEquipoControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/SAFE_Rescue/API_Turno/controller/TurnoControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/SAFE_Rescue/API_Turno/service/CompaniaServiceTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/SAFE_Rescue/API_Turno/service/EquipoServiceTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/SAFE_Rescue/API_Turno/service/TipoEquipoServiceTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/SAFE_Rescue/API_Turno/service/TurnoServiceTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/controller/CompaniaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/controller/CompaniaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/controller/EquipoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/controller/EquipoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/controller/TipoEquipoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/controller/TipoEquipoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/controller/TurnoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/controller/TurnoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Bombero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Bombero.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Compania.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Compania.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Equipo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Equipo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Recurso.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Recurso.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/modelo/TipoEquipo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/modelo/TipoEquipo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Turno.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Turno.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Ubicacion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Ubicacion.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Vehiculo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/modelo/Vehiculo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/repository/BomberoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/repository/BomberoRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/repository/CompaniaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/repository/CompaniaRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/repository/EquipoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/repository/EquipoRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/repository/RecursoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/repository/RecursoRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/repository/TipoEquipoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/repository/TipoEquipoRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/repository/TurnoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/repository/TurnoRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/repository/UbicacionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/repository/UbicacionRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/repository/VehiculoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/repository/VehiculoRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/service/CompaniaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/service/CompaniaService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/service/EquipoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/service/EquipoService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/service/TipoEquipoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/service/TipoEquipoService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/service/TurnoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/SAFE_Rescue/API_Turno/service/TurnoService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/SAFE_Rescue/API_Turno/service/CompaniaServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/SAFE_Rescue/API_Turno/service/CompaniaServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/SAFE_Rescue/API_Turno/service/EquipoServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/SAFE_Rescue/API_Turno/service/EquipoServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +40,7 @@
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/MauricioTapia84/SAFE-Rescue_Backend_API-Turno.git",
-    "accountId": "557f9f4e-f6c9-4433-9eb9-223babebf8d8"
+    "accountId": "ec1f69c0-72d8-4d4f-a744-8568c4dddd42"
   }
 }]]></component>
   <component name="MavenImportPreferences">
@@ -94,12 +64,25 @@
     "Application.ApiAdministradorApplication.executor": "Run",
     "Application.ApiTurnoApplication.executor": "Run",
     "JUnit.ApiTurnoApplicationTests.executor": "Run",
+    "JUnit.CompaniaControllerTest.buscarCompaniaTest.executor": "Run",
     "JUnit.CompaniaControllerTest.executor": "Run",
     "JUnit.CompaniaServiceTest.executor": "Run",
+    "JUnit.CompaniaServiceTest.validarCompania_SinUbicacion.executor": "Run",
+    "JUnit.CompaniaServiceTest.validarUbicacion_SinCalle.executor": "Run",
+    "JUnit.EquipoControllerTest.agregarEquipoTest.executor": "Run",
+    "JUnit.EquipoControllerTest.buscarEquipoTest.executor": "Run",
     "JUnit.EquipoControllerTest.executor": "Run",
+    "JUnit.EquipoControllerTest.listarTest.executor": "Run",
     "JUnit.EquipoServiceTest.executor": "Run",
+    "JUnit.EquipoServiceTest.updateTest.executor": "Run",
+    "JUnit.EquipoServiceTest.updateTest1.executor": "Run",
+    "JUnit.EquipoServiceTest.validarEquipo_NombreVacio.executor": "Run",
     "JUnit.TipoEquipoControllerTest.executor": "Run",
+    "JUnit.TipoEquipoControllerTest.listarTiposEquipoTest.executor": "Run",
     "JUnit.TipoEquipoServiceTest.executor": "Run",
+    "JUnit.TipoEquipoServiceTest.saveRolValidacionTest.executor": "Run",
+    "JUnit.TurnoControllerTest.actualizarTurnoTest.executor": "Run",
+    "JUnit.TurnoControllerTest.agregarTurnoTest.executor": "Run",
     "JUnit.TurnoControllerTest.executor": "Run",
     "JUnit.TurnoServiceTest.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -107,7 +90,7 @@
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Mauricio/Documents/GitHub/desktop-tutorial/SAFE-Rescue_Backend_API-Turno/src/main/java/com/SAFE_Rescue/API_Turno",
+    "last_opened_file_path": "C:/Users/shein/Documents/GitHub/SAFE-Rescue_Backend_API-Turno",
     "run.code.analysis.last.selected.profile": "pProject Default"
   }
 }]]></component>
@@ -122,7 +105,20 @@
       <recent name="com.SAFE_Rescue.API_Turno" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.CompaniaControllerTest">
+  <component name="RunManager" selected="Application.ApiTurnoApplication">
+    <configuration name="ApiTurnoApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.SAFE_Rescue.API_Turno.ApiTurnoApplication" />
+      <module name="API_Turno" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.SAFE_Rescue.API_Turno.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="CompaniaControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="API_Turno" />
       <extension name="coverage">
@@ -133,21 +129,6 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.SAFE_Rescue.API_Turno.controller" />
       <option name="MAIN_CLASS_NAME" value="com.SAFE_Rescue.API_Turno.controller.CompaniaControllerTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CompaniaServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="API_Turno" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.SAFE_Rescue.API_Turno.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.SAFE_Rescue.API_Turno.service" />
-      <option name="MAIN_CLASS_NAME" value="com.SAFE_Rescue.API_Turno.service.CompaniaServiceTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -200,11 +181,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.CompaniaControllerTest" />
-        <item itemvalue="JUnit.EquipoControllerTest" />
-        <item itemvalue="JUnit.TipoEquipoControllerTest" />
+        <item itemvalue="Application.ApiTurnoApplication" />
         <item itemvalue="JUnit.TurnoControllerTest" />
-        <item itemvalue="JUnit.CompaniaServiceTest" />
+        <item itemvalue="JUnit.TipoEquipoControllerTest" />
+        <item itemvalue="JUnit.EquipoControllerTest" />
+        <item itemvalue="JUnit.CompaniaControllerTest" />
       </list>
     </recent_temporary>
   </component>
@@ -227,6 +208,17 @@
     </task>
     <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Se realizan modificaciones, correccion de errores, se realizan pruebas, y se deja operativo el codigo" />

@@ -1,6 +1,7 @@
 package com.SAFE_Rescue.API_Turno.controller;
 
 import com.SAFE_Rescue.API_Turno.modelo.Compania;
+import com.SAFE_Rescue.API_Turno.modelo.Ubicacion;
 import com.SAFE_Rescue.API_Turno.service.CompaniaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.datafaker.Faker;
@@ -49,10 +50,12 @@ public class CompaniaControllerTest {
     @BeforeEach
     public void setUp() {
         faker = new Faker();
-        compania = new Compania();
+        compania = new Compania(1, faker.company().name(),
+                new Ubicacion(1, faker.address().streetName(),
+                        faker.number().numberBetween(1, 9999),
+                        faker.address().city(),
+                        faker.address().state()));
         id = 1;
-        compania.setId(id);
-        compania.setNombre(faker.company().name());
     }
 
     /**
@@ -68,7 +71,8 @@ public class CompaniaControllerTest {
         mockMvc.perform(get("/api-turnos/v1/companias"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(compania.getId()))
-                .andExpect(jsonPath("$[0].nombre").value(compania.getNombre()));
+                .andExpect(jsonPath("$[0].nombre").value(compania.getNombre()))
+                .andExpect(jsonPath("$[0].ubicacion").value(compania.getUbicacion()));
     }
 
     /**
@@ -84,7 +88,8 @@ public class CompaniaControllerTest {
         mockMvc.perform(get("/api-turnos/v1/companias/{id}", id))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(compania.getId()))
-                .andExpect(jsonPath("$.nombre").value(compania.getNombre()));
+                .andExpect(jsonPath("$.nombre").value(compania.getNombre()))
+                .andExpect(jsonPath("$.ubicacion").value(compania.getUbicacion()));
     }
 
     /**

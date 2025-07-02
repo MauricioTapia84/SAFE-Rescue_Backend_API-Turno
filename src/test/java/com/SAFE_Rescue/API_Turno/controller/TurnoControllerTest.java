@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Random;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -40,6 +41,7 @@ public class TurnoControllerTest {
     private ObjectMapper objectMapper;
 
     private Faker faker;
+    private Random random;
     private Turno turno;
     private Integer id;
 
@@ -50,12 +52,17 @@ public class TurnoControllerTest {
     @BeforeEach
     public void setUp() {
         faker = new Faker();
-        turno = new Turno();
+        random = new Random();
         id = 1;
-        turno.setId(id);
-        turno.setNombre(faker.name().title());
-        turno.setFechaHoraInicio(LocalDateTime.now());
-        turno.setFechaHoraFin(turno.getFechaHoraInicio().plusHours(8));
+
+        LocalDateTime fechaHoraInicio = LocalDateTime.now().plusDays(random.nextInt(10))
+                .withHour(random.nextInt(24))
+                .withMinute(random.nextInt(60))
+                .withNano(0);
+
+        LocalDateTime fechaHoraFin = fechaHoraInicio.plusHours(8);
+
+        turno = new Turno(id,faker.name().title(), fechaHoraInicio, fechaHoraFin, 8);
     }
 
     /**
@@ -71,7 +78,10 @@ public class TurnoControllerTest {
         mockMvc.perform(get("/api-turnos/v1/turnos"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(turno.getId()))
-                .andExpect(jsonPath("$[0].nombre").value(turno.getNombre()));
+                .andExpect(jsonPath("$[0].nombre").value(turno.getNombre()))
+                .andExpect(jsonPath("$[0].fechaHoraInicio").value(turno.getFechaHoraInicio().toString()))
+                .andExpect(jsonPath("$[0].fechaHoraFin").value(turno.getFechaHoraFin().toString()))
+                .andExpect(jsonPath("$[0].duracion").value(turno.getDuracion()));
     }
 
     /**
@@ -87,7 +97,10 @@ public class TurnoControllerTest {
         mockMvc.perform(get("/api-turnos/v1/turnos/{id}", id))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(turno.getId()))
-                .andExpect(jsonPath("$.nombre").value(turno.getNombre()));
+                .andExpect(jsonPath("$.nombre").value(turno.getNombre()))
+                .andExpect(jsonPath("$.fechaHoraInicio").value(turno.getFechaHoraInicio().toString()))
+                .andExpect(jsonPath("$.fechaHoraFin").value(turno.getFechaHoraFin().toString()))
+                .andExpect(jsonPath("$.duracion").value(turno.getDuracion()));
     }
 
     /**
@@ -102,7 +115,7 @@ public class TurnoControllerTest {
         // Act & Assert
         mockMvc.perform(post("/api-turnos/v1/turnos")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(turno))) // Convertir Turno a JSON
+                        .content(objectMapper.writeValueAsString(turno)))
                 .andExpect(status().isCreated())
                 .andExpect(content().string("Turno creado con éxito."));
     }
@@ -119,7 +132,7 @@ public class TurnoControllerTest {
         // Act & Assert
         mockMvc.perform(put("/api-turnos/v1/turnos/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(turno))) // Convertir Turno a JSON
+                        .content(objectMapper.writeValueAsString(turno)))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Actualizado con éxito"));
     }

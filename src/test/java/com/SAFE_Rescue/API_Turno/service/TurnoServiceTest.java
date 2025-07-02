@@ -72,6 +72,10 @@ public class TurnoServiceTest {
         assertNotNull(turnos);
         assertEquals(1, turnos.size());
         assertEquals(turno.getNombre(), turnos.get(0).getNombre());
+        assertEquals(turno.getFechaHoraInicio(), turnos.get(0).getFechaHoraInicio());
+        assertEquals(turno.getFechaHoraFin(), turnos.get(0).getFechaHoraFin());
+        assertEquals(turno.getId(), turnos.get(0).getId());
+        assertEquals(turno.getDuracion(), turnos.get(0).getDuracion());
     }
 
     /**
@@ -92,6 +96,9 @@ public class TurnoServiceTest {
         assertNotNull(encontrado);
         assertEquals(id, encontrado.getId());
         assertEquals(turno.getNombre(), encontrado.getNombre());
+        assertEquals(turno.getFechaHoraInicio(), encontrado.getFechaHoraInicio());
+        assertEquals(turno.getFechaHoraFin(), encontrado.getFechaHoraFin());
+        assertEquals(turno.getDuracion(), encontrado.getDuracion());
     }
 
     /**
@@ -111,6 +118,9 @@ public class TurnoServiceTest {
         // Assert
         assertNotNull(guardado);
         assertEquals(turno.getNombre(), guardado.getNombre());
+        assertEquals(turno.getFechaHoraInicio(), guardado.getFechaHoraInicio());
+        assertEquals(turno.getFechaHoraFin(), guardado.getFechaHoraFin());
+        assertEquals(turno.getDuracion(), guardado.getDuracion());
         verify(turnoRepository, times(1)).save(turno);
     }
 
@@ -130,6 +140,7 @@ public class TurnoServiceTest {
         nuevoTurno.setNombre(faker.name().title());
         nuevoTurno.setFechaHoraInicio(turno.getFechaHoraInicio());
         nuevoTurno.setFechaHoraFin(turno.getFechaHoraFin());
+        nuevoTurno.setDuracion(8);
 
         // Act
         Turno actualizado = turnoService.update(nuevoTurno, id);
@@ -137,6 +148,9 @@ public class TurnoServiceTest {
         // Assert
         assertNotNull(actualizado);
         assertEquals(nuevoTurno.getNombre(), actualizado.getNombre());
+        assertEquals(nuevoTurno.getFechaHoraInicio(), actualizado.getFechaHoraInicio());
+        assertEquals(nuevoTurno.getFechaHoraFin(), actualizado.getFechaHoraFin());
+        assertEquals(nuevoTurno.getDuracion(), actualizado.getDuracion());
         verify(turnoRepository, times(1)).save(turno);
     }
 

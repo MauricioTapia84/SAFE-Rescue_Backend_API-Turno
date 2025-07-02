@@ -97,7 +97,7 @@ public class TipoEquipoControllerTest {
         // Act & Assert
         mockMvc.perform(post("/api-turnos/v1/tipos-equipo")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(tipoEquipo))) // Convertir TipoEquipo a JSON
+                        .content(objectMapper.writeValueAsString(tipoEquipo)))
                 .andExpect(status().isCreated())
                 .andExpect(content().string("Tipo Equipo creado con éxito."));
     }

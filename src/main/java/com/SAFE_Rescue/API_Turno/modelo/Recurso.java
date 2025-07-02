@@ -23,7 +23,7 @@ public class Recurso {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "Identificador único del recurso", example = "1")
-    private int id;
+    private Integer id;
 
     /**
      * Nombre descriptivo del recurso.
@@ -50,6 +50,6 @@ public class Recurso {
      */
     @Column(nullable = false)
     @Schema(description = "Cantidad disponible del recurso", example = "10", minimum = "0")
-    private int cantidad;
+    private Integer cantidad;
 
 }

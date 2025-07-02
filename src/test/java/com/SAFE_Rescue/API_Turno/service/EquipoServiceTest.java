@@ -57,6 +57,7 @@ public class EquipoServiceTest {
     private List<Vehiculo> vehiculosAsignados;
     private List<Bombero> personal;
     private List<Recurso> recursosAsignados;
+    private String patente;
 
     /**
      * Configura el entorno de pruebas antes de cada prueba.
@@ -66,41 +67,58 @@ public class EquipoServiceTest {
      */
     @BeforeEach
     public void setUp() {
+        id = 1;
         faker = new Faker();
+        random = new Random();
         recursosAsignados = new ArrayList<>();
         personal = new ArrayList<>();
         vehiculosAsignados = new ArrayList<>();
-        for (int j = 0; j < 3; j++) {
-            vehiculosAsignados.add(new Vehiculo(1,faker.vehicle().make(),faker.vehicle().model(),faker.vehicle().licensePlate(),faker.name().firstName(),faker.random().nextBoolean()));
-        }
-        equipo.setVehiculos(vehiculosAsignados);
 
-        for (int j = 0; j < 3; j++) {
-            personal.add(new Bombero(1,faker.name().firstName(),faker.name().lastName(),faker.name().lastName(),faker.number().numberBetween(100000000, 999999999)));
-        }
-        equipo.setPersonal(personal);
+        // Mockear los vehículos
+        when(vehiculoRepository.findById(anyInt())).thenAnswer(invocation -> {
+            Integer id = invocation.getArgument(0);
+            return Optional.of(new Vehiculo(id, "Marca " + id, "Modelo " + id, "Patente " + id, "Conductor " + id, true));
+        });
 
-        for (int j = 0; j < 3; j++) {
-            recursosAsignados.add(new Recurso(1,faker.lorem().word(),faker.lorem().word(),faker.number().numberBetween(0,9999)));
-        }
-        equipo.setRecursos(recursosAsignados);
+        // Mockear el personal (Bomberos)
+        when(bomberoRepository.findById(anyInt())).thenAnswer(invocation -> {
+            Integer id = invocation.getArgument(0);
+            return Optional.of(new Bombero(id, faker.name().firstName(), faker.name().lastName(), faker.name().lastName(), faker.number().numberBetween(100000000, 999999999)));
+        });
 
-        Ubicacion ubicacion = new Ubicacion(1, faker.address().streetName(),
-                faker.number().numberBetween(1, 9999),
-                faker.address().city(),
-                faker.address().state());
+        // Mockear los recursos
+        when(recursoRepository.findById(anyInt())).thenAnswer(invocation -> {
+            Integer id = invocation.getArgument(0);
+            return Optional.of(new Recurso(id, faker.lorem().word(), faker.lorem().word(), faker.number().numberBetween(0, 9999)));
+        });
+
+        // Crear vehículos
+        for (int j = 0; j < 2; j++) {
+            Vehiculo vehiculo = new Vehiculo(j + 1, faker.vehicle().make(), faker.vehicle().model(), String.valueOf(faker.number().numberBetween(0, 999999)), faker.name().firstName(), true);
+            vehiculosAsignados.add(vehiculo);
+        }
+
+        // Crear personal (Bomberos)
+        for (int j = 0; j < 2; j++) {
+            Bombero bombero = new Bombero(j + 1, faker.name().firstName(), faker.name().lastName(), faker.name().lastName(), faker.number().numberBetween(100000000, 999999999));
+            personal.add(bombero);
+        }
+
+        // Crear recursos
+        for (int j = 0; j < 2; j++) {
+            Recurso recurso = new Recurso(j + 1, faker.lorem().word(), faker.lorem().word(), faker.number().numberBetween(0, 9999));
+            recursosAsignados.add(recurso);
+        }
+
+        Ubicacion ubicacion = new Ubicacion(1, faker.address().streetName(), faker.number().numberBetween(1, 9999), faker.address().city(), faker.address().state());
         Compania compania = new Compania(1, faker.company().name(), ubicacion);
         TipoEquipo tipoEquipo = new TipoEquipo(1, faker.animal().name());
 
-        LocalDateTime fechaHoraInicio = LocalDateTime.now().plusDays(random.nextInt(10))
-                .withHour(random.nextInt(24))
-                .withMinute(random.nextInt(60));
-
+        LocalDateTime fechaHoraInicio = LocalDateTime.now().plusDays(random.nextInt(10)).withHour(random.nextInt(24)).withMinute(random.nextInt(60));
         LocalDateTime fechaHoraFin = fechaHoraInicio.plusHours(8);
+        Turno turno = new Turno(1, faker.name().title(), fechaHoraInicio, fechaHoraFin, (int)Duration.between(fechaHoraInicio, fechaHoraFin).toHours());
 
-        Turno turno = new Turno(1, faker.name().title(), fechaHoraInicio, fechaHoraFin, Duration.between(fechaHoraInicio, fechaHoraFin).toHours());
-        equipo = new Equipo(1, faker.name().firstName(), faker.number().numberBetween(0, 99), faker.random().nextBoolean(), faker.name().firstName(),vehiculosAsignados,personal, recursosAsignados, turno, compania, tipoEquipo);
-        id = 1;
+        equipo = new Equipo(1, faker.name().firstName(), faker.number().numberBetween(1, 99), faker.random().nextBoolean(), faker.name().firstName(), vehiculosAsignados, personal, recursosAsignados, turno, compania, tipoEquipo);
     }
 
     /**
@@ -121,6 +139,15 @@ public class EquipoServiceTest {
         assertNotNull(equipos);
         assertEquals(1, equipos.size());
         assertEquals(equipo.getNombre(), equipos.get(0).getNombre());
+        assertEquals(equipo.getCantidadMiembros(), equipos.get(0).getCantidadMiembros());
+        assertEquals(equipo.isEstado(), equipos.get(0).isEstado());
+        assertEquals(equipo.getLider(), equipos.get(0).getLider());
+        assertEquals(equipo.getVehiculos(), equipos.get(0).getVehiculos());
+        assertEquals(equipo.getPersonal(), equipos.get(0).getPersonal());
+        assertEquals(equipo.getRecursos(), equipos.get(0).getRecursos());
+        assertEquals(equipo.getTurno(), equipos.get(0).getTurno());
+        assertEquals(equipo.getCompania(), equipos.get(0).getCompania());
+        assertEquals(equipo.getTipoEquipo(), equipos.get(0).getTipoEquipo());
     }
 
     /**
@@ -141,6 +168,15 @@ public class EquipoServiceTest {
         assertNotNull(encontrado);
         assertEquals(id, encontrado.getId());
         assertEquals(equipo.getNombre(), encontrado.getNombre());
+        assertEquals(equipo.getCantidadMiembros(), encontrado.getCantidadMiembros());
+        assertEquals(equipo.isEstado(), encontrado.isEstado());
+        assertEquals(equipo.getLider(), encontrado.getLider());
+        assertEquals(equipo.getVehiculos(), encontrado.getVehiculos());
+        assertEquals(equipo.getPersonal(), encontrado.getPersonal());
+        assertEquals(equipo.getRecursos(), encontrado.getRecursos());
+        assertEquals(equipo.getTurno(), encontrado.getTurno());
+        assertEquals(equipo.getCompania(), encontrado.getCompania());
+        assertEquals(equipo.getTipoEquipo(), encontrado.getTipoEquipo());
     }
 
     /**
@@ -163,8 +199,19 @@ public class EquipoServiceTest {
         // Assert
         assertNotNull(guardado);
         assertEquals(equipo.getNombre(), guardado.getNombre());
+        assertEquals(equipo.getCantidadMiembros(), guardado.getCantidadMiembros());
+        assertEquals(equipo.isEstado(), guardado.isEstado());
+        assertEquals(equipo.getLider(), guardado.getLider());
+        assertEquals(equipo.getVehiculos(), guardado.getVehiculos());
+        assertEquals(equipo.getPersonal(), guardado.getPersonal());
+        assertEquals(equipo.getRecursos(), guardado.getRecursos());
+        assertEquals(equipo.getTurno(), guardado.getTurno());
+        assertEquals(equipo.getCompania(), guardado.getCompania());
+        assertEquals(equipo.getTipoEquipo(), guardado.getTipoEquipo());
+
         verify(equipoRepository, times(1)).save(equipo);
     }
+
 
     /**
      * Prueba que verifica la actualización de un equipo existente.
@@ -176,16 +223,49 @@ public class EquipoServiceTest {
     public void updateTest() {
         // Arrange
         when(equipoRepository.findById(id)).thenReturn(Optional.of(equipo));
-        when(equipoRepository.save(equipo)).thenReturn(equipo);
+        when(equipoRepository.save(any(Equipo.class))).thenReturn(equipo);
+        when(tipoEquipoRepository.findById(1)).thenReturn(Optional.of(new TipoEquipo(1, "Tipo de Ejemplo")));
 
-        Equipo nuevoEquipo = equipo;
+        Equipo nuevoEquipo = new Equipo(
+                1, "Equipo Actualizado", 10, false, "Líder Actualizado",
+                vehiculosAsignados, personal, recursosAsignados,
+                equipo.getTurno(),
+                equipo.getCompania(),
+                equipo.getTipoEquipo()
+        );
 
         // Act
         Equipo actualizado = equipoService.update(nuevoEquipo, id);
 
         // Assert
         assertNotNull(actualizado);
-        assertEquals(nuevoEquipo.getCantidadMiembros(), actualizado.getCantidadMiembros());
+        assertEquals(equipo.getNombre(), actualizado.getNombre(), "El nombre del equipo no coincide");
+        assertEquals(equipo.getCantidadMiembros(), actualizado.getCantidadMiembros(), "La cantidad de miembros no coincide");
+        assertEquals(equipo.getLider(), actualizado.getLider(), "El nombre del líder no coincide");
+        assertEquals(equipo.isEstado(), actualizado.isEstado(), "El estado del equipo no coincide");
+
+        // Verificar listas de vehículos
+        assertEquals(equipo.getVehiculos().size(), actualizado.getVehiculos().size(), "La cantidad de vehículos no coincide");
+        for (int i = 0; i < equipo.getVehiculos().size(); i++) {
+            assertEquals(equipo.getVehiculos().get(i), actualizado.getVehiculos().get(i), "El vehículo en la posición " + i + " no coincide");
+        }
+
+        // Verificar listas de personal
+        assertEquals(equipo.getPersonal().size(), actualizado.getPersonal().size(), "La cantidad de personal no coincide");
+        for (int i = 0; i < equipo.getPersonal().size(); i++) {
+            assertEquals(equipo.getPersonal().get(i), actualizado.getPersonal().get(i), "El personal en la posición " + i + " no coincide");
+        }
+
+        // Verificar listas de recursos
+        assertEquals(equipo.getRecursos().size(), actualizado.getRecursos().size(), "La cantidad de recursos no coincide");
+        for (int i = 0; i < equipo.getRecursos().size(); i++) {
+            assertEquals(equipo.getRecursos().get(i), actualizado.getRecursos().get(i), "El recurso en la posición " + i + " no coincide");
+        }
+
+        assertEquals(equipo.getTurno(), actualizado.getTurno(), "El turno no coincide");
+        assertEquals(equipo.getCompania(), actualizado.getCompania(), "La compañía no coincide");
+        assertEquals(equipo.getTipoEquipo(), actualizado.getTipoEquipo(), "El tipo de equipo no coincide");
+
         verify(equipoRepository, times(1)).save(equipo);
     }
 
@@ -262,7 +342,7 @@ public class EquipoServiceTest {
     @Test
     public void validarEquipo_NombreVacio() {
         // Arrange
-        equipo.setNombre("");
+        equipo.setNombre(null);
 
         // Assert
         assertThrows(IllegalArgumentException.class, () -> equipoService.validarEquipo(equipo));

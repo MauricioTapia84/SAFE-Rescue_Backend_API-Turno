@@ -24,7 +24,7 @@ public class Compania {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "Identificador único de la compañía", example = "1")
-    private int id;
+    private Integer id;
 
     /**
      * Nombre de la compañía (debe ser único).
@@ -32,8 +32,8 @@ public class Compania {
      * - Máximo 8 caracteres
      * - No puede ser nulo
      */
-    @Column(unique = true, length = 8, nullable = false)
-    @Schema(description = "Nombre de la compañía", example = "Bomberos", required = true, maxLength = 8)
+    @Column(unique = true, length = 50, nullable = false)
+    @Schema(description = "Nombre de la compañía", example = "Bomberos", required = true, maxLength = 50)
     private String nombre;
 
     /**

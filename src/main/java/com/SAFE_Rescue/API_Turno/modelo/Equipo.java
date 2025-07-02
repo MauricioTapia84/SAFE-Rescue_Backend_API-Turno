@@ -24,7 +24,7 @@ public class Equipo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-incremental
     @Schema(description = "Identificador único del equipo", example = "1")
-    private int id;
+    private Integer id;
 
     /**
      * Nombre del equipo (máximo 50 caracteres).
@@ -59,7 +59,7 @@ public class Equipo {
      * Relación uno-a-muchos con la entidad Vehiculo.
      */
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "equipo_id")
+    @JoinColumn(name = "vehiculos")
     @Schema(description = "Lista de vehículos asignados al equipo")
     private List<Vehiculo> vehiculos;
 
@@ -68,7 +68,7 @@ public class Equipo {
      * Relación uno-a-muchos con la entidad Bombero.
      */
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "equipo_id")
+    @JoinColumn(name = "personal")
     @Schema(description = "Lista de bomberos asignados al equipo")
     private List<Bombero> personal;
 
@@ -77,7 +77,7 @@ public class Equipo {
      * Relación uno-a-muchos con la entidad Recurso.
      */
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "equipo_id")
+    @JoinColumn(name = "recursos")
     @Schema(description = "Lista de recursos asignados al equipo")
     private List<Recurso> recursos;
 

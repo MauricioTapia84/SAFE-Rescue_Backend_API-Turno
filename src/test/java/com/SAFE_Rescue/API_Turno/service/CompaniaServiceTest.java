@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.List;
@@ -75,8 +74,10 @@ public class CompaniaServiceTest {
 
         // Assert
         assertNotNull(companias);
-        assertEquals(1, companias.size());
-        assertEquals(compania.getNombre(), companias.get(0).getNombre());
+        assertEquals(1, companias.size(), "La lista de compañías debería contener un elemento");
+        assertEquals(compania.getId(), companias.get(0).getId(), "El ID de la compañía no coincide");
+        assertEquals(compania.getNombre(), companias.get(0).getNombre(), "El nombre de la compañía no coincide");
+        assertEquals(compania.getUbicacion(), companias.get(0).getUbicacion(), "La ubicación de la compañía no coincide");
     }
 
     /**
@@ -94,8 +95,10 @@ public class CompaniaServiceTest {
         Compania encontrada = companiaService.findByID(id);
 
         // Assert
-        assertNotNull(encontrada);
-        assertEquals(id, encontrada.getId());
+        assertNotNull(encontrada, "La compañía encontrada no debería ser nula");
+        assertEquals(id, encontrada.getId(), "El ID de la compañía no coincide");
+        assertEquals(compania.getNombre(), encontrada.getNombre(), "El nombre de la compañía no coincide");
+        assertEquals(compania.getUbicacion(), encontrada.getUbicacion(), "La ubicación de la compañía no coincide");
     }
 
     /**
@@ -114,8 +117,10 @@ public class CompaniaServiceTest {
         Compania guardado = companiaService.save(compania);
 
         // Assert
-        assertNotNull(guardado);
-        assertEquals(compania.getNombre(), guardado.getNombre());
+        assertNotNull(guardado, "La compañía guardada no debería ser nula");
+        assertEquals(compania.getNombre(), guardado.getNombre(), "El nombre de la compañía guardada no coincide");
+        assertEquals(compania.getUbicacion(), guardado.getUbicacion(), "La ubicación de la compañía guardada no coincide");
+        assertEquals(compania.getId(), guardado.getId(), "El ID de la compañía guardada no coincide");
         verify(companiaRepository, times(1)).save(compania);
     }
 
@@ -140,8 +145,10 @@ public class CompaniaServiceTest {
         Compania actualizada = companiaService.update(compania, id);
 
         // Assert
-        assertNotNull(actualizada);
-        assertEquals(compania.getNombre(), actualizada.getNombre());
+        assertNotNull(actualizada, "La compañía actualizada no debería ser nula");
+        assertEquals(compania.getNombre(), actualizada.getNombre(), "El nombre de la compañía actualizada no coincide");
+        assertEquals(compania.getUbicacion(), actualizada.getUbicacion(), "La ubicación de la compañía actualizada no coincide");
+        assertEquals(compania.getId(), actualizada.getId(), "El ID de la compañía actualizada no coincide");
         verify(companiaRepository, times(1)).save(companiaExistente);
     }
 

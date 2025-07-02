@@ -61,7 +61,7 @@ public class CompaniaService {
 
             return companiaRepository.save(compania);
         } catch (EntityNotFoundException e) {
-            throw new RuntimeException("Error al guardar el Compania: " + e.getMessage());
+            throw new EntityNotFoundException("Error al guardar el Compania: " + e.getMessage());
         } catch (Exception ex) {
             throw new RuntimeException("Error inesperado: " + ex.getMessage());
         }
@@ -113,14 +113,25 @@ public class CompaniaService {
      * @throws IllegalArgumentException Si la compañía no cumple con las reglas de validación
      */
     public void validarCompania(Compania compania) {
-        if (compania.getNombre() == null || compania.getNombre().trim().isEmpty()) {
-            throw new IllegalArgumentException("El nombre de la compañía es requerido");
-        }
-        if (compania.getNombre().length() > 50) {
-            throw new IllegalArgumentException("El nombre no puede exceder los 50 caracteres");
+        try {
+
+            if (compania.getNombre() == null || compania.getNombre().trim().isEmpty()) {
+                throw new IllegalArgumentException("El nombre de la compañía es requerido");
+            }
+            if (compania.getNombre().length() > 50) {
+                throw new IllegalArgumentException("El nombre no puede exceder los 50 caracteres");
+            }
+
+            if (compania.getUbicacion()==null) {
+                throw new IllegalArgumentException("La ubicación es requerida");
+            }
+
+            validarUbicacion(compania.getUbicacion());
+
+        }catch(IllegalArgumentException e){
+            throw new IllegalArgumentException("Error inesperado: " + e.getMessage());
         }
 
-        validarUbicacion(compania.getUbicacion());
     }
 
     /**
@@ -130,40 +141,46 @@ public class CompaniaService {
      */
     private void validarUbicacion(Ubicacion ubicacion) {
 
-        //numeracion
-        if (ubicacion.getNumeracion() <= 0) {
-            throw new IllegalArgumentException("La numeración debe ser un número positivo");
-        } else {
-            if (String.valueOf(ubicacion.getNumeracion()).length()> 5) {
-                throw new RuntimeException("El valor de la Numeración excede máximo de caracteres (5)");
-            }
-        }
+        try{
 
-        //calle
-        if (ubicacion.getCalle() != null) {
-            if (ubicacion.getCalle().length() > 50) {
-                throw new RuntimeException("El nombre de la calle no puede exceder 50 caracteres");
+            //numeracion
+            if (ubicacion.getNumeracion() <= 0) {
+                throw new IllegalArgumentException("La numeración debe ser un número positivo");
+            } else {
+                if (String.valueOf(ubicacion.getNumeracion()).length()> 5) {
+                    throw new IllegalArgumentException("El valor de la Numeración excede máximo de caracteres (5)");
+                }
             }
-        }else{
-            throw new IllegalArgumentException("El nombre de la calle es requerido");
-        }
 
-        //comuna
-        if (ubicacion.getComuna() != null) {
-            if (ubicacion.getComuna().length() > 50) {
-                throw new RuntimeException("El nombre de la comuna no puede exceder 50 caracteres");
+            //calle
+            if (ubicacion.getCalle() != null) {
+                if (ubicacion.getCalle().length() > 50) {
+                    throw new IllegalArgumentException("El nombre de la calle no puede exceder 50 caracteres");
+                }
+            }else{
+                throw new IllegalArgumentException("El nombre de la calle es requerido");
             }
-        }else{
-            throw new IllegalArgumentException("El nombre de la comuna es requerido");
-        }
 
-        //region
-        if (ubicacion.getRegion() != null) {
-            if (ubicacion.getRegion().length() > 50) {
-                throw new RuntimeException("El nombre de la Región no puede exceder 50 caracteres");
+            //comuna
+            if (ubicacion.getComuna() != null) {
+                if (ubicacion.getComuna().length() > 50) {
+                    throw new IllegalArgumentException("El nombre de la comuna no puede exceder 50 caracteres");
+                }
+            }else{
+                throw new IllegalArgumentException("El nombre de la comuna es requerido");
             }
-        }else{
-            throw new IllegalArgumentException("El nombre de la Región es requerido");
+
+            //region
+            if (ubicacion.getRegion() != null) {
+                if (ubicacion.getRegion().length() > 50) {
+                    throw new IllegalArgumentException("El nombre de la Región no puede exceder 50 caracteres");
+                }
+            }else{
+                throw new IllegalArgumentException("El nombre de la Región es requerido");
+            }
+
+        }catch(IllegalArgumentException e){
+            throw new IllegalArgumentException("Error inesperado: " + e.getMessage());
         }
 
     }

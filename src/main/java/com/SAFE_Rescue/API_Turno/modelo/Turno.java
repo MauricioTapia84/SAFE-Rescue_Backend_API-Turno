@@ -30,7 +30,7 @@ public class Turno {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "Identificador único del turno", example = "1")
-    private int id;
+    private Integer id;
 
     /**
      * Nombre descriptivo del turno.
@@ -86,6 +86,6 @@ public class Turno {
      */
     @Column(length = 2, nullable = false)
     @Schema(description = "Duración del turno en horas", required = true, example = "8", minimum = "1", maximum = "99")
-    private Long duracion;
+    private Integer duracion;
 
 }

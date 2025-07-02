@@ -49,8 +49,11 @@ public class TipoEquipoService {
         try{
             validarTipoEquipo(tipoEquipo);
             return tipoEquipoRepository.save(tipoEquipo);
-        } catch (EntityNotFoundException e) {
-            throw new RuntimeException("Error al guardar el TipoEquipo: " + e.getMessage());
+
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Error al guardar el TipoEquipo: " + e.getMessage());
+        } catch (EntityNotFoundException f) {
+            throw new EntityNotFoundException("Error al guardar el TipoEquipo: " + f.getMessage());
         } catch (Exception ex) {
             throw new RuntimeException("Error inesperado: " + ex.getMessage());
         }

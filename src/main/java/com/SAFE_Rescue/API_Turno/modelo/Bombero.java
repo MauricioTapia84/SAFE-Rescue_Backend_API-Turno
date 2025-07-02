@@ -23,7 +23,7 @@ public class Bombero {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "Identificador único del bombero")
-    private int id;
+    private Integer id;
 
     /**
      * Nombre descriptivo del bombero.

@@ -23,7 +23,7 @@ public class Ubicacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "Identificador único de la ubicación", example = "1")
-    private int id;
+    private Integer id;
 
     /**
      * Nombre de la calle o avenida.
@@ -40,7 +40,7 @@ public class Ubicacion {
      */
     @Column(length = 5, nullable = false)
     @Schema(description = "Número de la dirección", example = "1234", required = true)
-    private int numeracion;
+    private Integer numeracion;
 
     /**
      * Comuna o distrito de la ubicación.

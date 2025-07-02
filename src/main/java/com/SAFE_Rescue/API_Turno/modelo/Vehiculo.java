@@ -23,7 +23,7 @@ public class Vehiculo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "ID único del vehículo", example = "1")
-    private int id;
+    private Integer id;
 
     /**
      * Marca o fabricante del vehículo (ej: "Toyota", "Ford").
@@ -63,5 +63,5 @@ public class Vehiculo {
      */
     @Column(nullable = false)
     @Schema(description = "Estado actual del vehículo", example = "true", required = true)
-    private boolean estado; // Cambiado a boolean para reflejar el estado correctamente
+    private boolean estado;
 }

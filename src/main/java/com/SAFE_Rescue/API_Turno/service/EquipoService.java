@@ -126,8 +126,12 @@ public class EquipoService {
 
             validarEquipo(equipoExistente);
             return equipoRepository.save(equipoExistente);
-        } catch (Exception e) {
-            throw new RuntimeException("Error al actualizar equipo: " + e.getMessage(), e);
+        }catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Error al actualizar equipo: " + e.getMessage());
+        } catch (NoSuchElementException  f) {
+            throw new NoSuchElementException("Error al actualizar equipo: " + f.getMessage());
+        } catch (Exception g) {
+            throw new RuntimeException("Error al actualizar equipo: " + g.getMessage());
         }
     }
 
@@ -228,11 +232,13 @@ public class EquipoService {
     }
 
     /**
-     * Asigna vehículos a un equipo obteniéndolos de la base de datos
-     * @param equipo Equipo al que se asignarán los vehículos
+     * Asigna vehículos a un equipo obteniéndolos de la base de datos.
+     *
+     * @param equipo Equipo al que se asignarán los vehículos.
+     *               Debe ser no nulo y debe tener una lista de vehículos.
      */
     private void asignarVehiculosAlEquipo(Equipo equipo) {
-        if (equipo.getVehiculos() != null && !equipo.getVehiculos().isEmpty()) {
+        if (equipo != null && equipo.getVehiculos() != null && !equipo.getVehiculos().isEmpty()) {
             List<Integer> vehiculosIds = extraerIdsVehiculos(equipo.getVehiculos());
             equipo.setVehiculos(obtenerVehiculos(vehiculosIds));
         }
@@ -255,23 +261,38 @@ public class EquipoService {
      * @throws NullPointerException Si el parámetro equipo es nulo
      */
     public void validarEquipo(Equipo equipo) {
-
-        if (equipo.getNombre() != null) {
-            if (equipo.getNombre().length() > 50) {
-                throw new RuntimeException("El nombre no puede exceder 50 caracteres");
+        try{
+            if (equipo.getNombre() != null) {
+                if (equipo.getNombre().length() > 50) {
+                    throw new IllegalArgumentException("El nombre no puede exceder 50 caracteres");
+                }
+            }else{
+                throw new IllegalArgumentException("El nombre no puede ser nulo");
             }
-        }
 
-        if (equipo.getCantidadMiembros() != null) {
-            if (String.valueOf(equipo.getCantidadMiembros()).length()> 5) {
-                throw new RuntimeException("El valor de la Cantidad de miembros excede máximo de caracteres (2)");
-            }
-        }
+            if (equipo.getCantidadMiembros() != null) {
+                if (equipo.getCantidadMiembros()< 0) {
+                    throw new IllegalArgumentException("El valor de la Cantidad de miembros no puede ser negativa");
+                }
 
-        if (equipo.getLider() != null) {
-            if (equipo.getLider().length() > 50) {
-                throw new RuntimeException("El nombre del líder no puede exceder 50 caracteres");
+                if (String.valueOf(equipo.getCantidadMiembros()).length()> 5) {
+                    throw new IllegalArgumentException("El valor de la Cantidad de miembros excede máximo de caracteres (2)");
+                }
+
             }
+
+            if (equipo.getLider() != null) {
+                if (equipo.getLider().length() > 50) {
+                    throw new IllegalArgumentException("El nombre del líder no puede exceder 50 caracteres");
+                }
+            }else{
+                throw new IllegalArgumentException("El nombre del líder no puede ser nulo");
+            }
+
+        }catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Error al validar equipo: " + e.getMessage());
+        } catch (Exception ex) {
+            throw new RuntimeException("Error al validar equipo: " + ex.getMessage());
         }
 
     }
@@ -332,28 +353,25 @@ public class EquipoService {
     }
 
     /**
-     * Obtiene información de vehículos desde base de datos
-     * @param vehiculosIds Lista de IDs de vehículos
-     * @return Lista con información de vehículos
-     * @throws RuntimeException Si hay error en la comunicación
+     * Obtiene información de vehículos desde la base de datos.
+     *
+     * @param vehiculosIds Lista de IDs de vehículos.
+     * @return Lista con información de vehículos.
+     * @throws NoSuchElementException Si algún vehículo no se encuentra.
+     * @throws RuntimeException Si hay un error en la comunicación.
      */
     private List<Vehiculo> obtenerVehiculos(List<Integer> vehiculosIds) {
         if (vehiculosIds == null || vehiculosIds.isEmpty()) {
             return Collections.emptyList();
         }
 
-        try {
-            List<Vehiculo> vehiculos = new ArrayList<>();
-            for (int i =0;vehiculosIds.size()>i;i++) {
-                Vehiculo vehiculo = vehiculoRepository.findById(vehiculosIds.get(i))
-                        .orElseThrow(() -> new RuntimeException("Vehiculo no encontrado"));
-                vehiculos.add(vehiculo);
-            }
-            return vehiculos;
-        } catch (Exception e) {
-            throw new RuntimeException("Error al obtener lista de vehículos: " + e.getMessage(), e);
+        List<Vehiculo> vehiculos = new ArrayList<>();
+        for (Integer id : vehiculosIds) {
+            Vehiculo vehiculo = vehiculoRepository.findById(id)
+                    .orElseThrow(() -> new NoSuchElementException("Vehículo no encontrado con ID: " + id));
+            vehiculos.add(vehiculo);
         }
-
+        return vehiculos;
     }
 
     /**
@@ -399,10 +417,11 @@ public class EquipoService {
     }
 
     /**
-     * Obtiene IDs de vehiculos desde base de datos
-     * @param vehiculos Lista vehiculos
-     * @return Lista con información de vehiculos
-     * @throws RuntimeException Si hay error en la comunicación
+     * Obtiene los IDs de los vehículos desde la lista proporcionada.
+     *
+     * @param vehiculos Lista de vehículos.
+     * @return Lista con los IDs de los vehículos.
+     * @throws RuntimeException Si hay un error en el proceso de extracción.
      */
     private List<Integer> extraerIdsVehiculos(List<Vehiculo> vehiculos) {
         if (vehiculos == null || vehiculos.isEmpty()) {
@@ -411,7 +430,9 @@ public class EquipoService {
 
         List<Integer> ids = new ArrayList<>();
         for (Vehiculo vehiculo : vehiculos) {
-            ids.add(Math.toIntExact(vehiculo.getId()));
+            if (vehiculo != null) { // Verificar que el vehículo no sea nulo
+                ids.add(vehiculo.getId()); // Asumiendo que getId() retorna Integer
+            }
         }
         return ids;
     }

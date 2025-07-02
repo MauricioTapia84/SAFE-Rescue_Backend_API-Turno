@@ -49,6 +49,26 @@ public class DataLoader implements CommandLineRunner {
         Random random = new Random();
         Set<String> uniqueNombres = new HashSet<>();
 
+        // Generar ubicaciones
+        for (int i = 0; i < 5; i++) {
+            Ubicacion ubicacion = new Ubicacion();
+            ubicacion.setNumeracion(faker.number().numberBetween(1,9999));
+            ubicacion.setCalle(faker.country().name());
+            ubicacion.setComuna(faker.country().name());
+            ubicacion.setRegion(faker.country().capital());
+            try {
+                ubicacionRepository.save(ubicacion);
+            } catch (Exception e) {
+                System.out.println("Error al guardar ubicacion: " + e.getMessage());
+            }
+        }
+
+        List<Ubicacion> ubicaciones = ubicacionRepository.findAll();
+        if (ubicaciones.isEmpty()) {
+            System.out.println("No se encontraron ubicaciones, agregue ubicaciones primero");
+            return;
+        }
+
         // Generar TipoEquipo
         for (int i = 0; i < 3; i++) {
             TipoEquipo tipoEquipo = new TipoEquipo();
@@ -66,11 +86,6 @@ public class DataLoader implements CommandLineRunner {
             return;
         }
 
-        List<Ubicacion> ubicaciones = ubicacionRepository.findAll();
-        if (ubicaciones.isEmpty()) {
-            System.out.println("No se encontraron ubicaciones, agregue ubicaciones primero");
-            return;
-        }
 
         // Generar Compania
         for (int i = 0; i < 5; i++) {
@@ -111,7 +126,7 @@ public class DataLoader implements CommandLineRunner {
             LocalDateTime fechaHoraFin = fechaHoraInicio.plusHours(8);
             turno.setFechaHoraInicio(fechaHoraInicio);
             turno.setFechaHoraFin(fechaHoraFin);
-            turno.setDuracion(Duration.between(turno.getFechaHoraInicio(), turno.getFechaHoraFin()).toHours());
+            turno.setDuracion((int) java.time.Duration.between(turno.getFechaHoraInicio(), turno.getFechaHoraFin()).toHours());
 
             try {
                 turnoRepository.save(turno);

@@ -1,6 +1,9 @@
 package com.SAFE_Rescue.API_Turno.controller;
 
 import com.SAFE_Rescue.API_Turno.modelo.*;
+import com.SAFE_Rescue.API_Turno.repository.BomberoRepository;
+import com.SAFE_Rescue.API_Turno.repository.RecursoRepository;
+import com.SAFE_Rescue.API_Turno.repository.VehiculoRepository;
 import com.SAFE_Rescue.API_Turno.service.EquipoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.datafaker.Faker;
@@ -35,6 +38,15 @@ public class EquipoControllerTest {
     @MockitoBean
     private EquipoService equipoService;
 
+    @MockitoBean
+    private RecursoRepository recursoRepository;
+
+    @MockitoBean
+    private VehiculoRepository vehiculoRepository;
+
+    @MockitoBean
+    private BomberoRepository bomberoRepository;
+
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -52,41 +64,58 @@ public class EquipoControllerTest {
      */
     @BeforeEach
     public void setUp() {
+        id = 1;
         faker = new Faker();
+        random = new Random();
         recursosAsignados = new ArrayList<>();
         personal = new ArrayList<>();
         vehiculosAsignados = new ArrayList<>();
-        for (int j = 0; j < 3; j++) {
-            vehiculosAsignados.add(new Vehiculo(1,faker.vehicle().make(),faker.vehicle().model(),faker.vehicle().licensePlate(),faker.name().firstName(),faker.random().nextBoolean()));
-        }
-        equipo.setVehiculos(vehiculosAsignados);
 
-        for (int j = 0; j < 3; j++) {
-            personal.add(new Bombero(1,faker.name().firstName(),faker.name().lastName(),faker.name().lastName(),faker.number().numberBetween(100000000, 999999999)));
-        }
-        equipo.setPersonal(personal);
+        // Mockear los vehículos
+        when(vehiculoRepository.findById(anyInt())).thenAnswer(invocation -> {
+            Integer id = invocation.getArgument(0);
+            return Optional.of(new Vehiculo(id, "Marca " + id, "Modelo " + id, "Patente " + id, "Conductor " + id, true));
+        });
 
-        for (int j = 0; j < 3; j++) {
-            recursosAsignados.add(new Recurso(1,faker.lorem().word(),faker.lorem().word(),faker.number().numberBetween(0,9999)));
-        }
-        equipo.setRecursos(recursosAsignados);
+        // Mockear el personal (Bomberos)
+        when(bomberoRepository.findById(anyInt())).thenAnswer(invocation -> {
+            Integer id = invocation.getArgument(0);
+            return Optional.of(new Bombero(id, faker.name().firstName(), faker.name().lastName(), faker.name().lastName(), faker.number().numberBetween(100000000, 999999999)));
+        });
 
-        Ubicacion ubicacion = new Ubicacion(1, faker.address().streetName(),
-                faker.number().numberBetween(1, 9999),
-                faker.address().city(),
-                faker.address().state());
+        // Mockear los recursos
+        when(recursoRepository.findById(anyInt())).thenAnswer(invocation -> {
+            Integer id = invocation.getArgument(0);
+            return Optional.of(new Recurso(id, faker.lorem().word(), faker.lorem().word(), faker.number().numberBetween(0, 9999)));
+        });
+
+        // Crear vehículos
+        for (int j = 0; j < 2; j++) {
+            Vehiculo vehiculo = new Vehiculo(j + 1, faker.vehicle().make(), faker.vehicle().model(), String.valueOf(faker.number().numberBetween(0, 999999)), faker.name().firstName(), true);
+            vehiculosAsignados.add(vehiculo);
+        }
+
+        // Crear personal (Bomberos)
+        for (int j = 0; j < 2; j++) {
+            Bombero bombero = new Bombero(j + 1, faker.name().firstName(), faker.name().lastName(), faker.name().lastName(), faker.number().numberBetween(100000000, 999999999));
+            personal.add(bombero);
+        }
+
+        // Crear recursos
+        for (int j = 0; j < 2; j++) {
+            Recurso recurso = new Recurso(j + 1, faker.lorem().word(), faker.lorem().word(), faker.number().numberBetween(0, 9999));
+            recursosAsignados.add(recurso);
+        }
+
+        Ubicacion ubicacion = new Ubicacion(1, faker.address().streetName(), faker.number().numberBetween(1, 9999), faker.address().city(), faker.address().state());
         Compania compania = new Compania(1, faker.company().name(), ubicacion);
         TipoEquipo tipoEquipo = new TipoEquipo(1, faker.animal().name());
 
-        LocalDateTime fechaHoraInicio = LocalDateTime.now().plusDays(random.nextInt(10))
-                .withHour(random.nextInt(24))
-                .withMinute(random.nextInt(60));
-
+        LocalDateTime fechaHoraInicio = LocalDateTime.now().plusDays(random.nextInt(10)).withHour(random.nextInt(24)).withMinute(random.nextInt(60));
         LocalDateTime fechaHoraFin = fechaHoraInicio.plusHours(8);
+        Turno turno = new Turno(1, faker.name().title(), fechaHoraInicio, fechaHoraFin, (int)Duration.between(fechaHoraInicio, fechaHoraFin).toHours());
 
-        Turno turno = new Turno(1, faker.name().title(), fechaHoraInicio, fechaHoraFin, Duration.between(fechaHoraInicio, fechaHoraFin).toHours());
-        equipo = new Equipo(1, faker.name().firstName(), faker.number().numberBetween(0, 99), faker.random().nextBoolean(), faker.name().firstName(),vehiculosAsignados,personal, recursosAsignados, turno, compania, tipoEquipo);
-        id = 1;
+        equipo = new Equipo(1, faker.name().firstName(), faker.number().numberBetween(1, 99), faker.random().nextBoolean(), faker.name().firstName(), vehiculosAsignados, personal, recursosAsignados, turno, compania, tipoEquipo);
     }
 
     /**
@@ -99,12 +128,20 @@ public class EquipoControllerTest {
         when(equipoService.findAll()).thenReturn(List.of(equipo));
 
         // Act & Assert
-        mockMvc.perform(get("/api-turno/v1/equipos"))
+        mockMvc.perform(get("/api-turnos/v1/equipos"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(equipo.getId()))
                 .andExpect(jsonPath("$[0].nombre").value(equipo.getNombre()))
                 .andExpect(jsonPath("$[0].cantidadMiembros").value(equipo.getCantidadMiembros()))
-                .andExpect(jsonPath("$[0].lider").value(equipo.getLider()));
+                .andExpect(jsonPath("$[0].lider").value(equipo.getLider()))
+                .andExpect(jsonPath("$[0].estado").value(equipo.isEstado()))
+                .andExpect(jsonPath("$[0].vehiculos[0].id").value(equipo.getVehiculos().get(0).getId()))
+                .andExpect(jsonPath("$[0].vehiculos[0].marca").value(equipo.getVehiculos().get(0).getMarca()))
+                .andExpect(jsonPath("$[0].personal[0].id").value(equipo.getPersonal().get(0).getId()))
+                .andExpect(jsonPath("$[0].recursos[0].id").value(equipo.getRecursos().get(0).getId()))
+                .andExpect(jsonPath("$[0].turno.nombre").value(equipo.getTurno().getNombre()))
+                .andExpect(jsonPath("$[0].compania.nombre").value(equipo.getCompania().getNombre()))
+                .andExpect(jsonPath("$[0].tipoEquipo.nombre").value(equipo.getTipoEquipo().getNombre()));
     }
 
     /**
@@ -117,12 +154,19 @@ public class EquipoControllerTest {
         when(equipoService.findByID(id)).thenReturn(equipo);
 
         // Act & Assert
-        mockMvc.perform(get("/api-turno/v1/equipos/{id}", id))
+        mockMvc.perform(get("/api-turnos/v1/equipos/{id}", id))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(equipo.getId()))
                 .andExpect(jsonPath("$.nombre").value(equipo.getNombre()))
                 .andExpect(jsonPath("$.cantidadMiembros").value(equipo.getCantidadMiembros()))
-                .andExpect(jsonPath("$.lider").value(equipo.getLider()));
+                .andExpect(jsonPath("$.lider").value(equipo.getLider()))
+                .andExpect(jsonPath("$.estado").value(equipo.isEstado()))
+                .andExpect(jsonPath("$.vehiculos[0].id").value(equipo.getVehiculos().get(0).getId()))
+                .andExpect(jsonPath("$.personal[0].id").value(equipo.getPersonal().get(0).getId()))
+                .andExpect(jsonPath("$.recursos[0].id").value(equipo.getRecursos().get(0).getId()))
+                .andExpect(jsonPath("$.turno.nombre").value(equipo.getTurno().getNombre()))
+                .andExpect(jsonPath("$.compania.nombre").value(equipo.getCompania().getNombre()))
+                .andExpect(jsonPath("$.tipoEquipo.nombre").value(equipo.getTipoEquipo().getNombre()));
     }
 
     /**
@@ -135,7 +179,7 @@ public class EquipoControllerTest {
         when(equipoService.save(any(Equipo.class))).thenReturn(equipo);
 
         // Act & Assert
-        mockMvc.perform(post("/api-turno/v1/equipos")
+        mockMvc.perform(post("/api-turnos/v1/equipos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(equipo))) // Convertir Equipo a JSON
                 .andExpect(status().isCreated())
@@ -152,7 +196,7 @@ public class EquipoControllerTest {
         when(equipoService.update(any(Equipo.class), eq(id))).thenReturn(equipo);
 
         // Act & Assert
-        mockMvc.perform(put("/api-turno/v1/equipos/{id}", id)
+        mockMvc.perform(put("/api-turnos/v1/equipos/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(equipo))) // Convertir Equipo a JSON
                 .andExpect(status().isOk())
@@ -169,7 +213,7 @@ public class EquipoControllerTest {
         doNothing().when(equipoService).delete(id);
 
         // Act & Assert
-        mockMvc.perform(delete("/api-turno/v1/equipos/{id}", id))
+        mockMvc.perform(delete("/api-turnos/v1/equipos/{id}", id))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Equipo eliminado con éxito."));
     }
@@ -186,7 +230,7 @@ public class EquipoControllerTest {
         when(equipoService.findAll()).thenReturn(Collections.emptyList());
 
         // Act & Assert
-        mockMvc.perform(get("/api-turno/v1/equipos"))
+        mockMvc.perform(get("/api-turnos/v1/equipos"))
                 .andExpect(status().isNoContent());
     }
 
@@ -200,7 +244,7 @@ public class EquipoControllerTest {
         when(equipoService.findByID(id)).thenThrow(new NoSuchElementException("Equipo no encontrado"));
 
         // Act & Assert
-        mockMvc.perform(get("/api-turno/v1/equipos/{id}", id))
+        mockMvc.perform(get("/api-turnos/v1/equipos/{id}", id))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("Equipo no encontrado"));
     }
@@ -215,7 +259,7 @@ public class EquipoControllerTest {
         when(equipoService.save(any(Equipo.class))).thenThrow(new RuntimeException("Error al crear el equipo"));
 
         // Act & Assert
-        mockMvc.perform(post("/api-turno/v1/equipos")
+        mockMvc.perform(post("/api-turnos/v1/equipos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(equipo))) // Convertir Equipo a JSON
                 .andExpect(status().isBadRequest())
@@ -232,7 +276,7 @@ public class EquipoControllerTest {
         when(equipoService.update(any(Equipo.class), eq(id))).thenThrow(new NoSuchElementException("Equipo no encontrado"));
 
         // Act & Assert
-        mockMvc.perform(put("/api-turno/v1/equipos/{id}", id)
+        mockMvc.perform(put("/api-turnos/v1/equipos/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(equipo))) // Convertir Equipo a JSON
                 .andExpect(status().isNotFound())
@@ -249,7 +293,7 @@ public class EquipoControllerTest {
         doThrow(new NoSuchElementException("Equipo no encontrado")).when(equipoService).delete(id);
 
         // Act & Assert
-        mockMvc.perform(delete("/api-turno/v1/equipos/{id}", id))
+        mockMvc.perform(delete("/api-turnos/v1/equipos/{id}", id))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("Equipo no encontrado"));
     }
