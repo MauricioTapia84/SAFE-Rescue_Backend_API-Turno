@@ -37,12 +37,12 @@
     &quot;assignee&quot;: &quot;MauricioTapia84&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/MauricioTapia84/SAFE-Rescue_Backend_API-Turno.git",
-    "accountId": "ec1f69c0-72d8-4d4f-a744-8568c4dddd42"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/MauricioTapia84/SAFE-Rescue_Backend_API-Turno.git&quot;,
+    &quot;accountId&quot;: &quot;ec1f69c0-72d8-4d4f-a744-8568c4dddd42&quot;
   }
-}]]></component>
+}</component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -59,41 +59,41 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.ApiAdministradorApplication.executor": "Run",
-    "Application.ApiTurnoApplication.executor": "Run",
-    "JUnit.ApiTurnoApplicationTests.executor": "Run",
-    "JUnit.CompaniaControllerTest.buscarCompaniaTest.executor": "Run",
-    "JUnit.CompaniaControllerTest.executor": "Run",
-    "JUnit.CompaniaServiceTest.executor": "Run",
-    "JUnit.CompaniaServiceTest.validarCompania_SinUbicacion.executor": "Run",
-    "JUnit.CompaniaServiceTest.validarUbicacion_SinCalle.executor": "Run",
-    "JUnit.EquipoControllerTest.agregarEquipoTest.executor": "Run",
-    "JUnit.EquipoControllerTest.buscarEquipoTest.executor": "Run",
-    "JUnit.EquipoControllerTest.executor": "Run",
-    "JUnit.EquipoControllerTest.listarTest.executor": "Run",
-    "JUnit.EquipoServiceTest.executor": "Run",
-    "JUnit.EquipoServiceTest.updateTest.executor": "Run",
-    "JUnit.EquipoServiceTest.updateTest1.executor": "Run",
-    "JUnit.EquipoServiceTest.validarEquipo_NombreVacio.executor": "Run",
-    "JUnit.TipoEquipoControllerTest.executor": "Run",
-    "JUnit.TipoEquipoControllerTest.listarTiposEquipoTest.executor": "Run",
-    "JUnit.TipoEquipoServiceTest.executor": "Run",
-    "JUnit.TipoEquipoServiceTest.saveRolValidacionTest.executor": "Run",
-    "JUnit.TurnoControllerTest.actualizarTurnoTest.executor": "Run",
-    "JUnit.TurnoControllerTest.agregarTurnoTest.executor": "Run",
-    "JUnit.TurnoControllerTest.executor": "Run",
-    "JUnit.TurnoServiceTest.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/shein/Documents/GitHub/SAFE-Rescue_Backend_API-Turno",
-    "run.code.analysis.last.selected.profile": "pProject Default"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.ApiAdministradorApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.ApiTurnoApplication.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ApiTurnoApplicationTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CompaniaControllerTest.buscarCompaniaTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CompaniaControllerTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CompaniaServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CompaniaServiceTest.validarCompania_SinUbicacion.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CompaniaServiceTest.validarUbicacion_SinCalle.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EquipoControllerTest.agregarEquipoTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EquipoControllerTest.buscarEquipoTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EquipoControllerTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EquipoControllerTest.listarTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EquipoServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EquipoServiceTest.updateTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EquipoServiceTest.updateTest1.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EquipoServiceTest.validarEquipo_NombreVacio.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TipoEquipoControllerTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TipoEquipoControllerTest.listarTiposEquipoTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TipoEquipoServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TipoEquipoServiceTest.saveRolValidacionTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TurnoControllerTest.actualizarTurnoTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TurnoControllerTest.agregarTurnoTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TurnoControllerTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TurnoServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/shein/Documents/GitHub/SAFE-Rescue_Backend_API-Turno&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Mauricio\Documents\GitHub\desktop-tutorial\SAFE-Rescue_Backend_API-Turno\src\main\java\com\SAFE_Rescue\API_Turno" />
@@ -105,7 +105,7 @@
       <recent name="com.SAFE_Rescue.API_Turno" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.ApiTurnoApplication">
+  <component name="RunManager" selected="JUnit.CompaniaControllerTest">
     <configuration name="ApiTurnoApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.SAFE_Rescue.API_Turno.ApiTurnoApplication" />
       <module name="API_Turno" />
@@ -181,11 +181,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.CompaniaControllerTest" />
         <item itemvalue="Application.ApiTurnoApplication" />
         <item itemvalue="JUnit.TurnoControllerTest" />
         <item itemvalue="JUnit.TipoEquipoControllerTest" />
         <item itemvalue="JUnit.EquipoControllerTest" />
-        <item itemvalue="JUnit.CompaniaControllerTest" />
       </list>
     </recent_temporary>
   </component>
