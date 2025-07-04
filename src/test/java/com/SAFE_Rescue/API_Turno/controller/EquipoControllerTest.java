@@ -74,7 +74,7 @@ public class EquipoControllerTest {
         // Mockear los vehículos
         when(vehiculoRepository.findById(anyInt())).thenAnswer(invocation -> {
             Integer id = invocation.getArgument(0);
-            return Optional.of(new Vehiculo(id, "Marca " + id, "Modelo " + id, "Patente " + id, "Conductor " + id, true));
+            return Optional.of(new Vehiculo(id, "Marca " + id, "Modelo " + id, "Patente " + id, "Conductor " + id, faker.lorem().word()));
         });
 
         // Mockear el personal (Bomberos)
@@ -91,7 +91,7 @@ public class EquipoControllerTest {
 
         // Crear vehículos
         for (int j = 0; j < 2; j++) {
-            Vehiculo vehiculo = new Vehiculo(j + 1, faker.vehicle().make(), faker.vehicle().model(), String.valueOf(faker.number().numberBetween(0, 999999)), faker.name().firstName(), true);
+            Vehiculo vehiculo = new Vehiculo(j + 1, faker.vehicle().make(), faker.vehicle().model(), String.valueOf(faker.number().numberBetween(0, 999999)), faker.name().firstName(), faker.lorem().word());
             vehiculosAsignados.add(vehiculo);
         }
 

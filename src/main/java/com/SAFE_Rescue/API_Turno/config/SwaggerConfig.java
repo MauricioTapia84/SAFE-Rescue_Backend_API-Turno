@@ -10,7 +10,7 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI customOpenAPI() {
-        //http://localhost:8080/doc/swagger-ui/index.html
+        //http://localhost:8083/doc/swagger-ui/index.html
         return new OpenAPI()
                 .info(new Info()
                         .title("API 2025 Creación y gestión de Turnos")

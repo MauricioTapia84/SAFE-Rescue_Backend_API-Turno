@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Entidad que representa un equipo de bomberos en el sistema.
@@ -56,28 +57,40 @@ public class Equipo {
 
     /**
      * Lista de vehículos.
-     * Relación uno-a-muchos con la entidad Vehiculo.
+     * Relación muchos-a-muchos con la entidad Vehiculo.
      */
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "vehiculos")
+    @ManyToMany
+    @JoinTable(
+            name = "equipo_vehiculos",
+            joinColumns = @JoinColumn(name = "equipo_id"),
+            inverseJoinColumns = @JoinColumn(name = "vehiculos_id")
+    )
     @Schema(description = "Lista de vehículos asignados al equipo")
     private List<Vehiculo> vehiculos;
 
     /**
      * Lista de personal.
-     * Relación uno-a-muchos con la entidad Bombero.
+     * Relación muchos-a-muchos con la entidad Bombero.
      */
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "personal")
+    @ManyToMany
+    @JoinTable(
+            name = "equipo_personal",
+            joinColumns = @JoinColumn(name = "equipo_id"),
+            inverseJoinColumns = @JoinColumn(name = "personal_id")
+    )
     @Schema(description = "Lista de bomberos asignados al equipo")
     private List<Bombero> personal;
 
     /**
      * Lista de recursos.
-     * Relación uno-a-muchos con la entidad Recurso.
+     * Relación muchos-a-muchos con la entidad Recurso.
      */
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "recursos")
+    @ManyToMany
+    @JoinTable(
+            name = "equipo_Recursos",
+            joinColumns = @JoinColumn(name = "equipo_id"),
+            inverseJoinColumns = @JoinColumn(name = "rucursos_id")
+    )
     @Schema(description = "Lista de recursos asignados al equipo")
     private List<Recurso> recursos;
 

@@ -58,10 +58,10 @@ public class Vehiculo {
     private String conductor;
 
     /**
-     * Estado actual del vehículo (true = activo/disponible, false = inactivo/no disponible).
-     * Por defecto, debería ser true (activo) al crear un nuevo vehículo.
+     * Nombre descriptivo del estado del vehículo.
+     * Debe ser un valor no nulo y con una longitud máxima recomendada de 50 caracteres.
      */
-    @Column(nullable = false)
-    @Schema(description = "Estado actual del vehículo", example = "true", required = true)
-    private boolean estado;
+    @Column(length = 50, nullable = false)
+    @Schema(description = "Estado del vehículo", example = "Operativo", required = true, maxLength = 50)
+    private String estado;
 }

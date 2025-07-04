@@ -40,7 +40,7 @@ public class Compania {
      * Ubicación asignada a la compañía.
      * Relación uno-a-uno con la entidad Ubicacion.
      */
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "ubicacion_id", referencedColumnName = "id")
     @Schema(description = "Ubicación asignada a la compañía")
     private Ubicacion ubicacion;
